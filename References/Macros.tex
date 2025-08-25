@@ -1,0 +1,28 @@
+
+\def\BibTeX{%
+    {\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em%
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}%
+}%
+
+\newcommand\dimTesto[1]{%
+    \pgfmathparse{#1*1.2}%
+    \fontsize{#1 pt}{\pgfmathresult pt}\selectfont%
+}
+
+\newcommand\derT[3][d]{\frac{\mathrm{#1}#2}{\mathrm{#1}#3}} % Derivata totale
+\newcommand\derTiL[3][d]{\mathrm{#1}#2/\mathrm{#1}#3}       % Derivata totale in linea
+\newcommand\derP[2]{\frac{\partial#1}{\partial#2}}	        % Derivata parziale
+
+\newcommand\de{\mathrm{d}}
+
+\newcommand{\SpazMate}[3]{% Spaz[iatura] Mate[matica]
+    \thinmuskip=#1mu\relax
+    \medmuskip=#2mu\relax
+    \thickmuskip=#3mu\relax
+}
+\SpazMate{1}{2}{3} % Seleceting math spacing
+
+\newcommand\ie{\textit{i.e.}}
+
+\newcommand\vColla[3]{\vspace{#1#3 plus #2#3 minus #2#3}}
+\newcommand\hColla[3]{\hspace{#1#3 plus #2#3 minus #2#3}}

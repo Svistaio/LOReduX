@@ -1,0 +1,103 @@
+
+\makeatletter%
+\newcommand\checkClass[2]{%
+    \@ifclassloaded{IEEEtran}{#1}{#2}%
+}%
+\makeatother%
+
+% \checkClass{% «IEEEtran» class
+% }{% «Beamer» class
+% }%
+
+\usepackage[british]{babel}
+\usepackage{microtype}
+\usepackage{fontspec}
+
+\checkClass{% «IEEEtran» class
+    \setmainfont{cambria}[%
+        Path = ../References/, % Pathc
+        UprightFont = cambria.ttc,    % Normal font
+        ItalicFont = cambriai.ttf,    % Italic font
+        BoldFont = cambriab.ttf,      % Bold font
+        BoldItalicFont = cambriaz.ttf % Italic bold font
+    ]%
+}{% «Beamer» class
+    \setsansfont{cambria}[%
+        Path = ../References/, % Pathc
+        UprightFont = cambria.ttc,    % Normal font
+        ItalicFont = cambriai.ttf,    % Italic font
+        BoldFont = cambriab.ttf,      % Bold font
+        BoldItalicFont = cambriaz.ttf % Italic bold font
+    ]%
+}%
+
+\usepackage{cite}
+\usepackage{amsmath,
+            amsfonts,
+            amsthm,
+            amssymb}
+
+\usepackage{mathtools}
+\usepackage{algorithmic}
+\usepackage{textcomp}
+
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+\usepackage{tikz}
+% \usetikzlibrary{
+%     tikzmark,
+%     positioning,
+%     arrows.meta,
+%     fit,
+%     calc,
+%     decorations.pathreplacing,
+%     calligraphy,
+%     spy,
+% }
+\usepackage{pgfplots}
+\usepgfplotslibrary{groupplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{showframe}
+\renewcommand\ShowFrameLinethickness{.5pt}    % line thickness
+\renewcommand\ShowFrameColor{\color{magenta}} % line color
+
+
+\usepackage[shortlabels]{enumitem}
+\setlist[itemize]{label=$\diamond$}
+
+% \usepackage{caption,
+%             subcaption}
+\usepackage{float,
+            stfloats}
+
+\usepackage{hyperref}
+\newcommand{\teqref}[2]{\hyperref[#1]{#2}}
+
+
+\usepackage{cleveref}
+%
+\crefrangeformat{equation}{(#3#1#4--#5#2#6)}%
+\crefmultiformat{equation}{(#2#1#3}{, #2#1#3)}{, #2#1#3}{, #2#1#3)}%
+\crefrangemultiformat{equation}{(#3#1#4--#5#2#6}{, #3#1#4--#5#2#6)}{, #3#1#4--#5#2#6}{, #3#1#4--#5#2#6)}%
+%
+\crefrangeformat{enumi}{#3#1#4--#5#2#6}%
+\crefmultiformat{enumi}{#2#1#3}{ and #2#1#3}{, #2#1#3}{ and #2#1#3}%
+%
+\crefrangeformat{figure}{#3#1#4--#5#2#6}%
+\crefmultiformat{figure}{#2#1#3}{ and #2#1#3}{, #2#1#3}{ and #2#1#3}%
+\crefrangemultiformat{figure}{#3#1#4--#5#2#6}{ and #3#1#4--#5#2#6}{, #3#1#4--#5#2#6}{ and #3#1#4--#5#2#6}%
+%
+\crefrangeformat{section}{#3#1#4--#5#2#6}%
+\crefmultiformat{section}{#2#1#3}{ and #2#1#3}{, #2#1#3}{ and #2#1#3}%
+
+
+\usepackage{siunitx}
+\sisetup{
+    inter-unit-product=\ensuremath{{}\cdot{}},
+    scientific-notation=false,
+}
+
+\usepackage{comment}
