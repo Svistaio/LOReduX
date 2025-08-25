@@ -1,0 +1,449 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+
+\usepackage{cite}
+\usepackage{amsmath,
+            amsfonts,
+            amsthm,
+            amssymb,
+            amsthm}
+
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{microtype}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{comment}
+
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\title{Nonlinear Elliptic problem \\ POD vs PINNs}
+
+\author{
+    \IEEEauthorblockN{1\textsuperscript{st} Maddalena Ghiotti}
+    \IEEEauthorblockA{s332834}
+    \and
+    \IEEEauthorblockN{2\textsuperscript{nd} Valerio Taralli}
+    \IEEEauthorblockA{s332689}
+    \and
+    \IEEEauthorblockN{3\textsuperscript{rd} Gaia Saroglia}
+    \IEEEauthorblockA{s332687}
+}
+
+\begin{document}
+    
+    \twocolumn[
+        \begin{@twocolumnfalse}
+            \noindent\parbox{\textwidth}{\maketitle}
+            \vspace{-1.5em}
+            \begin{center}
+                \noindent\parbox{0.9\textwidth}{%
+                    \begin{abstract}
+                        \bfseries
+                        \noindent PUNTI DA SCRIVERE (cenni): 
+                        \begin{itemize}
+                            \item cosa facciamo e di cosa si tratta
+                            \item descrizione problema (su cosa facciamo esperimenti numerici): problema ellittico non lineare parametrizzato, condizioni al contorno, configurazioni in analisi  
+                            \item obiettivo: valutare e confrontare POD e PINNs + POD-NN rispetto a full order 
+                            \item risultati: cosa abbiamo ottenuto dalle simulazioni
+                        \end{itemize}
+                    \end{abstract}
+                }
+            \end{center}
+            % Per qualche motivazione «abstract» richiede «\text{}» per le parentesi quadre
+        \end{@twocolumnfalse}
+        \vspace{0.5cm}
+    ]
+    
+    % \begin{comment}
+    % \begin{IEEEkeywords}
+    % component, formatting, style, styling, insert
+    % \end{IEEEkeywords}
+    % \end{comment}
+
+    %
+    
+    \section{Introduction}
+
+        The numerical approximation of nonlinear parametrized partial differential equations using high fidelity techniques, which means solving the problem directly in the original domain, typically results in very large systems that become computationally expensive and often unfeasible. For this reason, model order reduction (MOR) techniques have gained considerable attention: they are exploited to decrease computational costs while maintaining a good solution approximation. Among them, Proper Orthogonal Decomposition (POD) is known to lead to fast and reliable evaluations of the solution for new parameter values by building the reduced space. It is important to note that these are usually linear approaches that allow us to decouple the computation in offline and online phases. In nonlinear frameworks, to overcome some of the limitations of the POD method and to exploit the advantages of the division in online and offline phases, the recent advances in machine learning have opened new opportunities for the PDE's solution. In particular, Physics-Informed Neural Networks (PINNs) is a flexible approach that directly uses the equations into the training process of a neural network, it incorporates physical laws given by the differential equations into the loss functions to take advantages in the learning process. This allows PINNs to deal with complex and parametric problems in a data efficient and mesh free way.
+        By combining these two methods, we obtain a promising paradigm: the POD-NN hybrid approach. This leverages the dimensionality reduction given by POD to obtain a compact representation of the solution space while using a neural network to learn the parametric dependence of the reduced coefficients. This strategy maintains the accuracy of POD while exploiting the benefits of neural networks, providing a computationally efficient alternative to both the MOR and PINN approaches.
+        
+        In the present project, we consider as a model problem a nonlinear elliptic parametrized equation with homogeneous Dirichlet condition on the boundary, on a two-dimensional spatial domain. We study both the case in which the source term depends on the parameter and the case in which it is independent. 
+        In these two frameworks, we implement three approaches that can lead us to solving the problem. The first is the POD-Galerkin method over a finite element full-order model. Then we focus on parametric PINN, using the same network structure with either parameters independent and dependent source term. In the end, we use, as another reduce method, the hybrid approach of the POD-NN. We compare how the approaches work in terms of computational costs and accuracy using as a benchmark the results of the full-order model. 
+        
+        The outline of the project is as follows. In the next section, we introduce the model definition and the methods used. The numerical studies and results are shown in Section III for the given problems. This section shows the implementation of the methods and the comparisons between the different approaches in terms of computational costs and accuracy.
+
+    %
+    
+    \section{Model definition and methods}
+    
+        As a model problem, we consider the following parametrized equation in the two-dimensional spatial domain ${\Omega} = (0, 1) ^ 2$:
+        %
+        \begin{equation}
+            \begin{cases}
+                -\Delta u(\boldsymbol{\mu}) + \frac{\mu_0}{\mu_1}(e^{\mu_1 u(\boldsymbol{\mu})}-1) = g(\boldsymbol{x;\mu}) & \text{in } \Omega\\
+                \quad u = 0 & \text{on } \partial \Omega
+            \end{cases}
+            \label{eq:prob}
+        \end{equation}
+        %
+        where the parameter is $\boldsymbol{\mu}=(\mu_0,\mu_1) \in \mathcal{P}=[0.1,1]^2 \subset \mathbb{R}^2$. 
+        
+        We consider two different source terms $\forall \boldsymbol{x} =(x_0,x_1) \in \Omega$:
+        
+        \begin{enumerate}
+            \item independent on the parameter $\boldsymbol{\mu}$:
+                  %
+                  \begin{equation}
+                      \label{eq:g1}
+                      g(\boldsymbol{x;\mu})=g_1=100 \sin(2 \pi x_0) \cos(2 \pi x_1)
+                  \end{equation}
+        
+            \item dependent on the parameter $\boldsymbol{\mu}$:
+                  %
+                  \begin{equation}
+                      \label{eq:g2}
+                      g(\boldsymbol{x;\mu})=g_2=100 \sin(2 \pi \mu_0 x_0) \cos(2 \mu_0 \pi x_1)
+                  \end{equation}
+        \end{enumerate}
+        
+        - FIGURE - 
+        
+        In the following, we briefly describe the three approaches studied to solve problem~\eqref{eq:prob}, which will be compared in terms of computational costs and accuracy with respect to the full order model in Section III.
+    
+        \subsection{Proper Orthogonal Decomposition (POD)}
+    
+            Considering a parametrized partial differential equation whose solution lies in the functional space $\mathbb{V}^{\boldsymbol{\mu}}$, POD is an algorithm for the generation of the reduced basis based on two different stages:
+            
+            \begin{enumerate}
+                \item we explore the information related to the solution that varies with respect to $\boldsymbol \mu$ in a finite dimensional set $\mathcal P_{M} \subset \mathcal P$ of dimension $M$.
+                \item we compress the information and we build a linear subspace $\mathbb V_N \subset \mathbb V_{\delta}$ of dimension $N \ll N_{\delta}$.
+            \end{enumerate}
+            
+            Building the space and storing the $\boldsymbol \mu$-independent quantities is the offline phase, which depends on the dimension of the original discrete model.
+            Once the space is built, a fast online phase occurs, where we can compute many solutions in real time for new instances of the parameter input.
+            
+            In case of a linear PDE with an affine dependence on the parameters, one can easily decouple the online step from the full-order numerical scheme, so that the cost of any online query is uniquely related to the dimension of the reduced space by means of the affine decomposition. However, for differential problems with a non affine parametric dependence one needs some further actions to guarantee a significant computational saving with respect to the underlying full order model.
+            
+            In the POD method, to find the basis for our reduced space, we need to define the correlation matrix $\mathbf{C} \in \mathbb{R}^{M \times M}$. First, we select $M$ solutions $\omega_m=u_\delta(\boldsymbol{\mu}_m) \in \mathbb{V}_{\delta}$ from the high fidelity problem. Then we solve the eigenvalue problem:
+            %
+            \begin{equation}
+                \label{eq:eig}
+                \mathbf{C} \alpha_m= \lambda_m \alpha_m \quad \text{for } m \in \{ 1, \cdots,M \}.
+            \end{equation}
+            %
+            The correlation matrix has a good property: it is symmetric positive semi-definite. So, we can order the all-positive eigenvalues as $\lambda_1 >\dots > \lambda_{M}> 0$ and retain the first $N$ eigen-pairs $(\lambda_n, \alpha_n)$ for $1 \leq n \leq N$. In this way, we obtain the linear independent basis function that we use to build the reduced space. Indeed, having all the ingredients defined above, we can compute:
+            %
+            \begin{equation}
+                \label{eq:eigfunc}
+                \chi_n =  \sum_{m = 1}^{M} (\alpha_n)_m \omega_m,  \quad \quad 1 \leq n \leq N,
+            \end{equation}
+            %
+            and normalize them, obtaining $\psi_n = \dfrac{\chi_n}{\lvert \lvert \chi_n \rvert \rvert_{\mathbb V}}$. 
+            
+        \subsection{Physics-Informed Neural Networks (PINN)}
+    
+            Having a general parametric nonlinear partial differential equation, PINNs are neural networks that are trained to solve supervised learning tasks while respecting the laws of physics described by the given equations. The main idea is to incorporate into the loss function both the information obtained from the data and the physical model. The physics-informed term is like a prior knowledge that provides more information to the PINN without the need for more measurements, but only by evaluating the residual of the PDE at additional points in the domain. In our case, we want to approximate the solution of the PDE by considering two contributions to the loss function: one related to boundary information and the other to residual information. 
+            
+            The general structure of the parametric PINN method can be summarized as follows:
+            %
+            \begin{equation}
+                \label{eq:NN}
+                \begin{aligned}
+                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mathbb{V}^{\boldsymbol{\mu}}, \\
+                    & (x, \boldsymbol{\mu}) \mapsto \hat{u}(x, \boldsymbol{\mu}) \approx u(x, \boldsymbol{\mu}).
+                \end{aligned}
+            \end{equation}
+            %
+            where $u(x,\boldsymbol{\mu})$ is the exact solution of the PDE and $\mathbb{V}^{\boldsymbol{\mu}}$ is the functional space where the solution lies. 
+            PINNs use optimization algorithms to update the network parameters until the value of the loss function is decreased to a prespecified level. 
+            
+            Given the neural network $v(x,\boldsymbol{\mu}) \in \mathcal{F}_{NN}$, the loss function is defined as:
+            %
+            \begin{equation}
+                MSE = MSE^{\boldsymbol{\mu}}_b + \lambda MSE^{\boldsymbol{\mu}}_p
+            \end{equation}
+            %
+            where $MSE^{\boldsymbol{\mu}}_b$ is the boundary loss, $MSE^{\boldsymbol{\mu}}_p$ is the physical loss and $\lambda$ is the hyperparameter that balances the tradeoff between the two contributions, to be set before the network training.
+            
+            In particular, if the physical system we are studying is described by a PDE of the form
+            $\mathcal R({u}(x, \boldsymbol{\mu})) = 0$, the errors are given by:
+            %
+            \begin{equation*}
+                MSE^{\boldsymbol{\mu}}_b = \frac{1}{N_b} \sum_{k=1}^{N_b} | v(x^b_k,\boldsymbol{\mu}_k^b) - u(x_k^b,\boldsymbol{\mu}_k^b)|^2,
+            \end{equation*} 
+            %       
+            \begin{equation*}
+               MSE^{\boldsymbol{\mu}}_{p} = \frac{1}{N_p}\sum_{k=1}^{N_p}|\mathcal R(v(x^p_k,\boldsymbol{\mu}_k^p))|^2
+            \end{equation*}
+            %
+            for $(x^b_k,\boldsymbol{\mu}_k^b) \in (\partial \Omega, \mathcal{P})$ and $(x^p_k,\boldsymbol{\mu}_k^p) \in (\Omega, \mathcal{P})$.
+            
+            Finally, the solution approximation is given by
+            %
+            \begin{equation}
+                \hat{u}(x, \boldsymbol{\mu}):= \operatorname*{argmin}_{v \in \mathcal{F}_{NN}} MSE.
+            \end{equation}
+    
+        \subsection{POD-NN hybrid approach}
+    
+            POD-NN is a strategy that provides a fast tool to deal with non affine structures. It avoids the online projection by exploiting the direct projection of snapshots onto the reduced space built with the POD method, and then using them to create and train a neural network. 
+            
+            The general structure of the network can be summarized as follows:
+            %
+            \begin{equation}
+                \label{eq:podNN}
+                \begin{aligned}
+                    \pi_{NN} \colon \quad & \mathcal{P} \to \mathbb{R}^{N}, \\
+                    & \boldsymbol{\mu}^* \mapsto \boldsymbol u^{NN}_{N}(\boldsymbol{\mu}^*) 
+                \end{aligned}
+            \end{equation}
+            %
+            where $N$ is the dimension of the reduced space obtained by applying the POD. The inputs are the parameters of the training set, while the output is the Galerkin projection of the snapshots. 
+            For the output, which has the form $\boldsymbol u^{NN}_N$, the following relation holds:
+            %
+            \begin{equation*}
+                \mathbb B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mathbb P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
+            \end{equation*}
+            %
+            where $\mathbb B \in \mathbb{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mathbb P^{\boldsymbol \mu} = \mathbb B \mathbb P_{\delta \to N} \in \mathbb{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
+            To train the network, we minimize the loss given by the distance between the exact $u_N$ solution and the network approximation:
+            %
+            \begin{equation}
+                \label{eq:PODNNLoss}
+                MSE = \frac{1}{N_{snap}} \sum_{\boldsymbol \mu \in \mathcal{P}_{train}} 
+                \lvert \lvert \boldsymbol u^{NN}_N(\boldsymbol \mu) - \boldsymbol u_N(\boldsymbol \mu) \rvert \rvert^2 ,
+            \end{equation}
+            %
+            where $N_{snap}$ is the number of data in the training set. 
+            
+            To sum up, we can compute offline the snapshots collection, apply the POD strategy and train the network. Then, we evaluate the network during the online phase. In this way, we exploit the POD properties and the online phase becomes very fast. In contrast, the offline phase is longer and the accuracy is more difficult to control.  
+
+    %
+    
+    \section{Numerical studies}
+    
+        \textbf{
+            Introduzione con 
+            \begin{itemize}
+                \item 'set up' di simulazione
+                \item metriche usate per valutare risultati
+                \item confronti tra gli esperimenti 
+            \end{itemize}
+            Esperimenti nello specifico: confronti risultati con grafici
+        }
+        
+        \subsection{Parameters independent source term}
+        
+        \subsection{Parameters dependent source term}
+
+    %
+    
+    \section{Conclusions}
+
+\end{document}
+
+% \begin{comment}
+% \subsection{Abbreviations and Acronyms}\label{AA}
+% Define abbreviations and acronyms the first time they are used in the text, 
+% even after they have been defined in the abstract. Abbreviations such as 
+% IEEE, SI, MKS, CGS, ac, dc, and rms do not have to be defined. Do not use 
+% abbreviations in the title or heads unless they are unavoidable.
+
+% \subsection{Units}
+% \begin{itemize}
+% \item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as ``3.5-inch disk drive''.
+% \item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
+% \item Do not mix complete spellings and abbreviations of units: ``Wb/m\textsuperscript{2}'' or ``webers per square meter'', not ``webers/m\textsuperscript{2}''. Spell out units when they appear in text: ``. . . a few henries'', not ``. . . a few H''.
+% \item Use a zero before decimal points: ``0.25'', not ``.25''. Use ``cm\textsuperscript{3}'', not ``cc''.)
+% \end{itemize}
+
+% \subsection{Equations}
+% Number equations consecutively. To make your 
+% equations more compact, you may use the solidus (~/~), the exp function, or 
+% appropriate exponents. Italicize Roman symbols for quantities and variables, 
+% but not Greek symbols. Use a long dash rather than a hyphen for a minus 
+% sign. Punctuate equations with commas or periods when they are part of a 
+% sentence, as in:
+% \begin{equation}
+% a+b=\gamma\label{eq}
+% \end{equation}
+
+% Be sure that the 
+% symbols in your equation have been defined before or immediately following 
+% the equation. Use ``\eqref{eq}'', not ``Eq.~\eqref{eq}'' or ``equation \eqref{eq}'', except at 
+% the beginning of a sentence: ``Equation \eqref{eq} is . . .''
+
+% \subsection{\LaTeX-Specific Advice}
+
+% Please use ``soft'' (e.g., \verb|\eqref{Eq}|) cross references instead
+% of ``hard'' references (e.g., \verb|(1)|). That will make it possible
+% to combine sections, add equations, or change the order of figures or
+% citations without having to go through the file line by line.
+
+% Please don't use the \verb|{eqnarray}| equation environment. Use
+% \verb|{align}| or \verb|{IEEEeqnarray}| instead. The \verb|{eqnarray}|
+% environment leaves unsightly spaces around relation symbols.
+
+% Please note that the \verb|{subequations}| environment in {\LaTeX}
+% will increment the main equation counter even when there are no
+% equation numbers displayed. If you forget that, you might write an
+% article in which the equation numbers skip from (17) to (20), causing
+% the copy editors to wonder if you've discovered a new method of
+% counting.
+
+% {\BibTeX} does not work by magic. It doesn't get the bibliographic
+% data from thin air but from .bib files. If you use {\BibTeX} to produce a
+% bibliography you must send the .bib files. 
+
+% {\LaTeX} can't read your mind. If you assign the same label to a
+% subsubsection and a table, you might find that Table I has been cross
+% referenced as Table IV-B3. 
+
+% {\LaTeX} does not have precognitive abilities. If you put a
+% \verb|\label| command before the command that updates the counter it's
+% supposed to be using, the label will pick up the last counter to be
+% cross referenced instead. In particular, a \verb|\label| command
+% should not go before the caption of a figure or a table.
+
+% Do not use \verb|\nonumber| inside the \verb|{array}| environment. It
+% will not stop equation numbers inside \verb|{array}| (there won't be
+% any anyway) and it might stop a wanted equation number in the
+% surrounding equation.
+
+% \subsection{Some Common Mistakes}\label{SCM}
+% \begin{itemize}
+% \item The word ``data'' is plural, not singular.
+% \item The subscript for the permeability of vacuum $\mu_{0}$, and other common scientific constants, is zero with subscript formatting, not a lowercase letter ``o''.
+% \item In American English, commas, semicolons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
+% \item A graph within a graph is an ``inset'', not an ``insert''. The word alternatively is preferred to the word ``alternately'' (unless you really mean something that alternates).
+% \item Do not use the word ``essentially'' to mean ``approximately'' or ``effectively''.
+% \item In your paper title, if the words ``that uses'' can accurately replace the word ``using'', capitalize the ``u''; if not, keep using lower-cased.
+% \item Be aware of the different meanings of the homophones ``affect'' and ``effect'', ``complement'' and ``compliment'', ``discreet'' and ``discrete'', ``principal'' and ``principle''.
+% \item Do not confuse ``imply'' and ``infer''.
+% \item The prefix ``non'' is not a word; it should be joined to the word it modifies, usually without a hyphen.
+% \item There is no period after the ``et'' in the Latin abbreviation ``et al.''.
+% \item The abbreviation ``i.e.'' means ``that is'', and the abbreviation ``e.g.'' means ``for example''.
+% \end{itemize}
+% An excellent style manual for science writers is \cite{b7}.
+
+% \subsection{Authors and Affiliations}
+% \textbf{The class file is designed for, but not limited to, six authors.} A 
+% minimum of one author is required for all conference articles. Author names 
+% should be listed starting from left to right and then moving down to the 
+% next line. This is the author sequence that will be used in future citations 
+% and by indexing services. Names should not be listed in columns nor group by 
+% affiliation. Please keep your affiliations as succinct as possible (for 
+% example, do not differentiate among departments of the same organization).
+
+% \subsection{Identify the Headings}
+% Headings, or heads, are organizational devices that guide the reader through 
+% your paper. There are two types: component heads and text heads.
+
+% Component heads identify the different components of your paper and are not 
+% topically subordinate to each other. Examples include Acknowledgments and 
+% References and, for these, the correct style to use is ``Heading 5''. Use 
+% ``figure caption'' for your Figure captions, and ``table head'' for your 
+% table title. Run-in heads, such as ``Abstract'', will require you to apply a 
+% style (in this case, italic) in addition to the style provided by the drop 
+% down menu to differentiate the head from the text.
+
+% Text heads organize the topics on a relational, hierarchical basis. For 
+% example, the paper title is the primary text head because all subsequent 
+% material relates and elaborates on this one topic. If there are two or more 
+% sub-topics, the next level head (uppercase Roman numerals) should be used 
+% and, conversely, if there are not at least two sub-topics, then no subheads 
+% should be introduced.
+
+% \subsection{Figures and Tables}
+% \paragraph{Positioning Figures and Tables} Place figures and tables at the top and 
+% bottom of columns. Avoid placing them in the middle of columns. Large 
+% figures and tables may span across both columns. Figure captions should be 
+% below the figures; table heads should appear above the tables. Insert 
+% figures and tables after they are cited in the text. Use the abbreviation 
+% ``Fig.~\ref{fig}'', even at the beginning of a sentence.
+
+% \begin{table}[htbp]
+% \caption{Table Type Styles}
+% \begin{center}
+% \begin{tabular}{|c|c|c|c|}
+% \hline
+% \textbf{Table}&\multicolumn{3}{|c|}{\textbf{Table Column Head}} \\
+% \cline{2-4} 
+% \textbf{Head} & \textbf{\textit{Table column subhead}}& \textbf{\textit{Subhead}}& \textbf{\textit{Subhead}} \\
+% \hline
+% copy& More table copy$^{\mathrm{a}}$& &  \\
+% \hline
+% \multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
+% \end{tabular}
+% \label{tab1}
+% \end{center}
+% \end{table}
+
+% \begin{figure}[htbp]
+% \centerline{\includegraphics{fig1.png}}
+% \caption{Example of a figure caption.}
+% \label{fig}
+% \end{figure}
+
+% Figure Labels: Use 8 point Times New Roman for Figure labels. Use words 
+% rather than symbols or abbreviations when writing Figure axis labels to 
+% avoid confusing the reader. As an example, write the quantity 
+% ``Magnetization'', or ``Magnetization, M'', not just ``M''. If including 
+% units in the label, present them within parentheses. Do not label axes only 
+% with units. In the example, write ``Magnetization (A/m)'' or ``Magnetization 
+% \{A[m(1)]\}'', not just ``A/m''. Do not label axes with a ratio of 
+% quantities and units. For example, write ``Temperature (K)'', not 
+% ``Temperature/K''.
+
+% \section*{Acknowledgment}
+
+% The preferred spelling of the word ``acknowledgment'' in America is without 
+% an ``e'' after the ``g''. Avoid the stilted expression ``one of us (R. B. 
+% G.) thanks $\ldots$''. Instead, try ``R. B. G. thanks$\ldots$''. Put sponsor 
+% acknowledgments in the unnumbered footnote on the first page.
+
+
+
+% \section*{References}
+% Please number citations consecutively within brackets \cite{b1}. The 
+% sentence punctuation follows the bracket \cite{b2}. Refer simply to the reference 
+% number, as in \cite{b3}---do not use ``Ref. \cite{b3}'' or ``reference \cite{b3}'' except at 
+% the beginning of a sentence: ``Reference \cite{b3} was the first $\ldots$''
+
+% Number footnotes separately in superscripts. Place the actual footnote at 
+% the bottom of the column in which it was cited. Do not put footnotes in the 
+% abstract or reference list. Use letters for table footnotes.
+
+% Unless there are six authors or more give all authors' names; do not use 
+% ``et al.''. Papers that have not been published, even if they have been 
+% submitted for publication, should be cited as ``unpublished'' \cite{b4}. Papers 
+% that have been accepted for publication should be cited as ``in press'' \cite{b5}. 
+% Capitalize only the first word in a paper title, except for proper nouns and 
+% element symbols.
+
+% For papers published in translation journals, please give the English 
+% citation first, followed by the original foreign-language citation \cite{b6}.
+
+
+% \end{comment}
+
+% \begin{thebibliography}{00}
+% \begin{comment}
+% \bibitem{b1} G. Eason, B. Noble, and I. N. Sneddon, ``On certain integrals of Lipschitz-Hankel type involving products of Bessel functions,'' Phil. Trans. Roy. Soc. London, vol. A247, pp. 529--551, April 1955.
+% \bibitem{b2} J. Clerk Maxwell, A Treatise on Electricity and Magnetism, 3rd ed., vol. 2. Oxford: Clarendon, 1892, pp.68--73.
+% \bibitem{b3} I. S. Jacobs and C. P. Bean, ``Fine particles, thin films and exchange anisotropy,'' in Magnetism, vol. III, G. T. Rado and H. Suhl, Eds. New York: Academic, 1963, pp. 271--350.
+% \bibitem{b4} K. Elissa, ``Title of paper if known,'' unpublished.
+% \bibitem{b5} R. Nicole, ``Title of paper with only first word capitalized,'' J. Name Stand. Abbrev., in press.
+% \bibitem{b6} Y. Yorozu, M. Hirano, K. Oka, and Y. Tagawa, ``Electron spectroscopy studies on magneto-optical media and plastic substrate interface,'' IEEE Transl. J. Magn. Japan, vol. 2, pp. 740--741, August 1987 [Digests 9th Annual Conf. Magnetics Japan, p. 301, 1982].
+% \bibitem{b7} M. Young, The Technical Writer's Handbook. Mill Valley, CA: University Science, 1989.
+% \end{comment}
+% \end{thebibliography}
+
+% \begin{comment}
+% \vspace{12pt}
+% \color{red}
+% IEEE conference templates contain guidance text for composing and formatting conference papers. Please ensure that all template text is removed from your conference paper prior to submission to the conference. Failure to remove the template text from your paper may result in your paper not being published.
+% \end{comment}

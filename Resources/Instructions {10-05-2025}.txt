@@ -1,0 +1,15 @@
+
+    # Change the path to the folder with the Docker files
+cd "C:\Users\Valerio\Desktop\Università\5° A.A. 2024-25\2° Semestre\Model Order Reduction and Machine Learning\Resources"
+
+    # Build either the rbm-base image (with «Dockerfile Base») or the rbm-modified one (with «Dockerfile Modified»)
+docker build -f "Dockerfile Modified" --target rbm-base . -t rbm-base:1.0.0
+docker build -f "Dockerfile Modified" --target rbm-modified . -t rbm-modified:1.0.0
+
+    # Create the container from either images while bind mounting the folder «LORéduX»
+docker run --rm -it -p 8080:8080 -v "C:/Users/Valerio/Desktop/Università/5° A.A. 2024-25/2° Semestre/Model Order Reduction and Machine Learning:/content/RBM_ML_2025/LORéduX" rbm-base:1.0.0
+docker run --rm -it -p 8080:8080 -v "C:/Users/Valerio/Desktop/Università/5° A.A. 2024-25/2° Semestre/Model Order Reduction and Machine Learning:/content/workfolder/LORéduX" rbm-modified:1.0.0
+
+    # Alternative to -v [or --volume]
+docker run --rm -it -p 8080:8080 --mount type=bind,src="C:/Users/Valerio/Desktop/Università/5° A.A. 2024-25/2° Semestre/Model Order Reduction and Machine Learning",dst="/content/RBM_ML_2025/LORéduX" rbm-base:1.0.0
+docker run --rm -it -p 8080:8080 --mount type=bind,src="C:/Users/Valerio/Desktop/Università/5° A.A. 2024-25/2° Semestre/Model Order Reduction and Machine Learning",dst="/content/workfolder/LORéduX" rbm-modified:1.0.0
