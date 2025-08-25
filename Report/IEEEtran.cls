@@ -488,18 +488,18 @@
 \fi
 
 
-%%% EDIT %%%
+%%% POSSIBLE EDIT %%%
 
 % The IEEE uses Times Roman font, so we'll default to Times.
 % These three commands make up the entire times.sty package.
-% \renewcommand{\sfdefault}{phv}
-% \renewcommand{\rmdefault}{ptm}
-% \renewcommand{\ttdefault}{pcr}
+\renewcommand{\sfdefault}{phv}
+\renewcommand{\rmdefault}{ptm}
+\renewcommand{\ttdefault}{pcr}
 
-% These lines have been commented out to avoid the warnings
+% These lines can be been commented out to avoid the warnings
 % when changing font using the «fontspec» package with LuaLaTeX
 
-%%% EDIT %%%
+%%% POSSIBLE EDIT %%%
 
 
 % V1.7 compsoc nonconference papers, use Palatino/Palladio as the main text font,

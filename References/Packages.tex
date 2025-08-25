@@ -11,25 +11,9 @@
 
 \usepackage[british]{babel}
 \usepackage{microtype}
-\usepackage{fontspec}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 
-\checkClass{% «IEEEtran» class
-    \setmainfont{cambria}[%
-        Path = ../References/, % Pathc
-        UprightFont = cambria.ttc,    % Normal font
-        ItalicFont = cambriai.ttf,    % Italic font
-        BoldFont = cambriab.ttf,      % Bold font
-        BoldItalicFont = cambriaz.ttf % Italic bold font
-    ]%
-}{% «Beamer» class
-    \setsansfont{cambria}[%
-        Path = ../References/, % Pathc
-        UprightFont = cambria.ttc,    % Normal font
-        ItalicFont = cambriai.ttf,    % Italic font
-        BoldFont = cambriab.ttf,      % Bold font
-        BoldItalicFont = cambriaz.ttf % Italic bold font
-    ]%
-}%
 
 \usepackage{cite}
 \usepackage{amsmath,
