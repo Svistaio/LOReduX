@@ -50,7 +50,30 @@
 
 
 \usepackage[shortlabels]{enumitem}
-\setlist[itemize]{label=$\diamond$}
+\setlist[itemize]{
+    label=$\diamond$,
+    topsep=7.5pt,	  % Spazio superiore tra testo e lista
+    itemsep=2.5pt,	  % Spazio tra gli elementi («item») della lista
+    leftmargin=.5cm,  % Spazio tra la lista e il bordo sinistro del testo
+    rightmargin=.25cm, % Spazio tra la lista e il bordo destro del testo
+    % \leftmargin + \itemindent = \labelindent + \labelwidth + \labelsep
+    %itemindent=!,
+    % labelindent=30pt,  % Spazio tra il margine sinistro e l'etichetta della lista
+    %labelwidth=!,
+    %labelsep=!,
+}
+\setlist[enumerate]{
+    label=\arabic*.,
+    topsep=7.5pt,	  % Spazio superiore tra testo e lista
+    itemsep=-2pt,	  % Spazio tra gli elementi («item») della lista
+    leftmargin=1cm,  % Spazio tra la lista e il bordo sinistro del testo
+    rightmargin=.5cm, % Spazio tra la lista e il bordo destro del testo
+    % \leftmargin + \itemindent = \labelindent + \labelwidth + \labelsep
+    %itemindent=!,
+    % labelindent=30pt, % Spazio tra il margine sinistro e l'etichetta della lista
+    %labelwidth=!,
+    %labelsep=!]
+}
 
 % \usepackage{caption,
 %             subcaption}
