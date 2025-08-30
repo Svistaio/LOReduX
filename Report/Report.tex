@@ -4,6 +4,7 @@
 
 \documentclass[
     conference,
+    nofonttune,
     11pt
 ]{IEEEtran}
 % \IEEEoverridecommandlockouts
@@ -76,79 +77,245 @@
         
         The outline of the project is as follows: we first introduce the model definition and the methods used; the numerical studies, results and comparisons are next tackled for the given problems; lastly, the conclusions are discussed.
 
+        Before continuing, we assume the reader is proficient enough about functional analysis, to avoid explaining all the Hilbert spaces used in the weak formulation (such as $H_0^1(\Omega)$), and about FEM.
+
     %
     
-    \section{Model definition and methods}\label{secModelDef}
+    \section{PDE definition and methods}\label{secModelDef}
     
-        The nonlinear elliptic PDE studied consist of finding
-        $$
-            u(\mathbf x;\boldsymbol\mu):\Omega\times\mathcal P\to\mathbb R
-        $$
-        such that it is the solution of the following parametrized problem with homogeneous Dirichlet boundary conditions:
-        %
-        \begin{equation}
-            \label{eqEllipticPDE}
-            \newcommand\spzOriz{\hspace{.5cm}}
-            \left\{\begin{alignedat}{2}
-                &-\Delta u
-                +h
-                =g&\spzOriz&
-                \text{in }\Omega\times\mathcal P,\\
-                &u=0&\spzOriz&
-                \text{on }\partial\Omega\times\mathcal P,
-            \end{alignedat}\right.
-        \end{equation}
-        %
-        where
-        $$
-            h(u;\boldsymbol\mu)\equiv
-            \frac{\mu_0}{\mu_1}(e^{\mu_1 u(\mathbf x;\boldsymbol\mu)}-1)
-            :\Omega\times\mathcal P\to\mathbb R
-        $$
-        is the nonlinear term,
-        $$
-            g(\mathbf x;\boldsymbol\mu):\Omega\times\mathcal P\to\mathbb R
-        $$
-        is the source term to be defined,
-        $$
-            \mathbf x\equiv(x_0,x_1)\in\Omega=(0,1)^2
-        $$
-        is the spatial square domain and
-        $$
-           \boldsymbol\mu\equiv(\mu_0,\mu_1)\in\mathcal P=[0.1,1]^2\subset\mathbb R^2
-        $$
-        is the parametric square domain. For the source term we consider two different cases:
-        
-        \begin{enumerate}[
-            label=C\arabic*.,
-            rightmargin=0cm
-        ]
-            \item\label{hypIndependentSourceTerm} independent of $\boldsymbol\mu$ with $g(\mathbf x;\boldsymbol\mu)\equiv g_1(\mathbf x)$ where:
-                  %
-                  \begin{equation}
-                      \label{eqIndependentSourceTerm}
-                      \begin{aligned}
-                        g_1(\mathbf x)&\equiv
-                        100\sin(2\pi x_0)\cos(2\pi x_1)\\[-3.5ex]
-                        &\hphantom{\equiv100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)}
-                      \end{aligned}
-                    %   \quad\forall\mathbf x\in\Omega
-                  \end{equation}
-        
-            \item\label{hypDependentSourceTerm} dependent on $\boldsymbol\mu$ with $g(\mathbf x;\boldsymbol\mu)\equiv g_2(\mathbf x;\mu_0)$ where:
-                  %
-                  \begin{equation}
-                      \label{eqDependentSourceTerm}
-                      g_2(\mathbf x;\mu_0)\equiv
-                      100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)
-                    %   \quad\forall\mathbf x\in\Omega
-                  \end{equation}
-        \end{enumerate}
-        
-        \vspace{.25cm}- POSSIBLE FIGURE ABOUT THE DOMAIN -\vspace{.25cm}
-        
-        In the following, we briefly describe the three approaches studied to solve problem \eqref{eqEllipticPDE}, which will be compared in terms of computational costs and accuracy with respect to the full order model in Section \ref{secNumericalStudies}.
-    
+        In the following, we talk about the discussed PDE and briefly describe the four approaches studied to solve it.
+
+        \subsection{PDE definition}
+
+            The nonlinear elliptic PDE studied consist of finding
+            $$
+                u(\mathbf x;\boldsymbol\mu):\Omega\times\mathcal P\to\mathbb R
+            $$
+            such that it's the solution, for some fixed parameters
+            $$
+                \boldsymbol\mu\equiv(\mu_0,\mu_1)\in\mathcal P=[0.1,1]^2
+            $$
+            in the parametric square domain, of the following problem with homogeneous Dirichlet boundary conditions:
+            %
+            \begin{equation}
+                \refstepcounter{equation}
+                \label{eqNLEllipticPDE}
+                \newcommand\spzOriz{\hspace{.5cm}}
+                \text{\NLEllPDE}
+                \left\{\begin{alignedat}{2}
+                    &-\Delta u
+                    +h
+                    =g+\frac{\mu_0}{\mu_1}&\spzOriz&
+                    \text{in }\Omega,\\
+                    &u=0&\spzOriz&
+                    \text{on }\partial\Omega,
+                \end{alignedat}\right.
+                \notag
+            \end{equation}
+            %
+            where
+            %
+            \begin{equation}
+                \label{eqNonLinearTerm}
+                h:\Omega\times\mathcal P\to\mathbb R,\quad
+                (\mathbf x;\boldsymbol\mu)\mapsto
+                h(u,\mathbf x;\boldsymbol\mu)\equiv
+                \frac{\mu_0}{\mu_1}e^{\mu_1 u(\mathbf x;\boldsymbol\mu)}
+            \end{equation}
+            %
+            is the nonlinear term,
+            $$
+                g(\mathbf x;\boldsymbol\mu):\Omega\times\mathcal P\to\mathbb R
+            $$
+            is the source term to be defined while
+            $$
+                \mathbf x\equiv(x_0,x_1)\in\Omega=(0,1)^2
+            $$
+            is the spatial square domain. For the source term two different cases are considered:
+            
+            \begin{enumerate}[
+                label=C\arabic*.,
+                rightmargin=0cm
+            ]
+                \item\label{hypIndependentSourceTerm} independent of $\boldsymbol\mu$ with $g(\mathbf x;\boldsymbol\mu)\equiv g_1(\mathbf x)$ where:
+                    %
+                    \begin{equation}
+                        \label{eqIndependentSourceTerm}
+                        \begin{aligned}
+                            g_1(\mathbf x)&\equiv
+                            100\sin(2\pi x_0)\cos(2\pi x_1)\\[-3.5ex]
+                            &\hphantom{\equiv100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)}
+                        \end{aligned}
+                        %   \quad\forall\mathbf x\in\Omega
+                    \end{equation}
+            
+                \item\label{hypDependentSourceTerm} dependent on $\boldsymbol\mu$ with $g(\mathbf x;\boldsymbol\mu)\equiv g_2(\mathbf x;\mu_0)$ where:
+                    %
+                    \begin{equation}
+                        \label{eqDependentSourceTerm}
+                        g_2(\mathbf x;\mu_0)\equiv
+                        100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)
+                        %   \quad\forall\mathbf x\in\Omega
+                    \end{equation}
+            \end{enumerate}
+            
+            Lastly the weak formulation of \refNLEllPDE{} is
+            %
+            \begin{equation}
+                \refstepcounter{equation}
+                \label{eqVarNLEllipticPED}
+                % \vcenter{\hbox{\rotatebox{90}{\text{\VarNLEllPDE}}}}
+                \text{\VarNLEllPDE}
+                \left\{\begin{aligned}
+                    &\text{Find $u(\boldsymbol\mu)\in H_0^1(\Omega)$
+                    such that $\forall v\in H_0^1(\Omega)$}\\
+                    &a(u,v;\boldsymbol\mu)
+                    +k(u,v;\boldsymbol\mu)=
+                    F(v;\boldsymbol\mu),
+                \end{aligned}\right.
+                \notag
+            \end{equation}
+            %
+            where
+            %
+            \begin{equation*}
+                \begin{alignedat}{2}
+                    a(\boldsymbol\mu):&H_0^1(\Omega)&&\times H_0^1(\Omega)\to\mathbb R,\\
+                    &&&(u,v)\mapsto a(u,v;\boldsymbol\mu)\equiv
+                    \int_\Omega\nabla u(\boldsymbol\mu)\cdot\nabla v;\\
+                    k(\boldsymbol\mu):&H_0^1(\Omega)&&\times H_0^1(\Omega)\to\mathbb R,\\
+                    &&&(u,v)\mapsto k(u,v;\boldsymbol\mu)\equiv
+                    \int_\Omega h(u;\boldsymbol\mu)v;\\
+                    F(\boldsymbol\mu):&H_0^1(\Omega)&&\to\mathbb R,\quad v\mapsto F(v;\boldsymbol\mu)\equiv
+                    \int_\Omega\left(g+\frac{\mu_0}{\mu_1}\right)v.
+                \end{alignedat}
+            \end{equation*}
+            
+        \subsection{Full order model (FOM)}
+
+            Since \eqref{eqNonLinearTerm} is nonlinear it's necessary to use an iterative approach for the FOM solution $u_\delta(\boldsymbol\mu)$ and for that purpose we have chosen the Newton method: knowing the solution of $u_k$ of the $k-th$ step, the update rule takes form
+            %
+            \begin{equation}
+                \label{eqUpdateRuleNewtonMethod}
+                u_{k+1}(\boldsymbol\mu)
+                =\delta u(\boldsymbol\mu)
+                +u_k(\boldsymbol\mu),
+            \end{equation}
+            %
+            where $\delta u(\boldsymbol\mu)$ is a function such that it holds
+            %
+            \begin{equation}
+                \label{eqDeltauConstraint}
+                \left.J_s[\delta u,v;\boldsymbol\mu]\right|_{u_k}
+                \delta u=-s(u_k,v;\boldsymbol\mu)
+                \quad\forall v \in V,
+            \end{equation}
+            %
+            in which $J_s[\delta u,v]\vert_{u_k}$ is the evaluation of the Jacobian of
+            $$
+                s(u,v;\boldsymbol\mu)\equiv
+                a(u,v;\boldsymbol\mu)
+                +k(u,v;\boldsymbol\mu)
+                -F(v;\boldsymbol\mu)=0
+            $$
+            in $u_k$ along the unknown direction of $\delta u$ defined as
+            %
+            \begin{equation}
+                \label{eqGateauxDerivativeDefinition}
+                J_s[\delta u,v;\boldsymbol\mu]\vert_{u_k}\equiv
+                \lim_{h\rightarrow0}
+                \frac{s(u_k+h\delta u,v;\boldsymbol\mu)-s(u_k,v;\boldsymbol\mu)}h,
+            \end{equation}
+            %
+            assuming $s$ is Gateaux differentiable. From \eqref{eqGateauxDerivativeDefinition}, it's then clear that
+            $$
+                J_a[\delta u,v;\boldsymbol\mu]\vert_{u_k}=\int_\Omega\nabla\delta u\nabla v,
+            $$
+            for the linearity of $a(u,v;\boldsymbol\mu)$ w.r.t. $u$, whereas
+            $$
+                J_F[\delta u;v;\boldsymbol\mu]\vert_{u_k}=0
+            $$
+            as $F$ it does not depend on $u$; thus, the only Jacobian necessary to calculate explicitly is
+            %
+            \begin{equation*}
+                \begin{aligned}
+                    J_k[\delta u,v;\boldsymbol\mu]\vert_{u_k}&=
+                    \lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}e^{\mu_1(u_k+h\delta u)}v-\int_\Omega \frac{\mu_0}{\mu_1}e^{\mu_1u_k}v\right]}
+                    % \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}\left(e^{\mu_1u_k}e^{\mu_1h\delta u}-e^{\mu_1u_k}\right)v\right]}
+                    \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}\left(e^{\mu_1h\delta u}-1\right)e^{\mu_1u_k}v\right]}
+                    \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}\left(1+\mu_1h\delta u-1\right)e^{\mu_1u_k}v\right]}
+                    \\&=\int_\Omega\mu_0\delta ue^{\mu_1u_k}v,
+                \end{aligned}
+            \end{equation*}
+            %
+            where $e^{\mu_1h\delta u}\approx1+\mu_1h\delta u$ is valid only with $h<<1$ as is the case when $h\rightarrow0$. Therefore, \eqref{eqDeltauConstraint} becomes
+            %
+            \begin{equation}
+                \refstepcounter{equation}
+                \label{eqIterativeVarNLEllipticPED}
+                % \vcenter{\hbox{\rotatebox{90}{\text{\NewtonNLEllPDE}}}}
+                \text{\NewtonNLEllPDE}
+                \left\{\begin{aligned}
+                    &\text{Find $\delta u(\boldsymbol\mu)\in H_0^1(\Omega)$
+                    such that $\forall v\in H_0^1(\Omega)$}\\
+                    &\begin{aligned}
+                        a(\delta u,v;\boldsymbol\mu)&+\mu_0b(\delta u,ve^{\mu_1u_k};\boldsymbol\mu)
+                        =-a(u_k,v;\boldsymbol\mu)\\
+                        &-\frac{\mu_0}{\mu_1}b(e^{\mu_1u_k},v;\boldsymbol\mu)+F(v;\boldsymbol\mu),
+                    \end{aligned}
+                \end{aligned}\right.
+                \notag
+            \end{equation}
+            where
+            %
+            \begin{equation*}
+                b(\boldsymbol\mu):H_0^1(\Omega)\times H_0^1(\Omega)\to\mathbb R,\;\;\;
+                (u,v)\mapsto b(u,v;\boldsymbol\mu)\equiv\int_\Omega u(\boldsymbol\mu)v.
+            \end{equation*}
+            %
+            Using the Galerkin method\footnotemark{} leads to the linear system
+            \footnotetext{This is possible in \refNewtonNLEllPDE{} since every operator is now linear w.r.t. $\delta u$, but not in \refVarNLEllPDE{} as $k(u,v)$ is nonlinear.}
+            %
+            \begin{equation}
+                \label{eqGalerIterLS}
+                \mathbf S(\mathbf u_k;\boldsymbol\mu)\delta\mathbf u
+                =\mathbf y(\mathbf u_k;\boldsymbol\mu),
+            \end{equation}
+            %
+            where
+            %
+            \begin{equation*}
+                \begin{aligned}
+                    \mathbf S(\mathbf u_k;\boldsymbol\mu)&\equiv
+                    \mathbf A+\mu_0\mathbf B(\mathbf u_k;\mu_1),\\
+                    \mathbf y(\mathbf u_k;\boldsymbol\mu)&\equiv-\mathbf a(\mathbf u_k)
+                    -\frac{\mu_0}{\mu_1}(\mathbf b(\mathbf u_k;\mu_1)+\mathbf b)+\mathbf g.
+                \end{aligned}
+            \end{equation*}
+            %
+            Some remarks follow:
+
+            \begin{itemize}[
+                itemsep=2pt,
+                % rightmargin=0cm
+            ]
+                \item $\mathbf u_k$ and $\delta\mathbf u$ are now vectors carrying the weights associated to the basis functions used in the Galerkin methods;
+                \item $\mathbf A$ is the stiffness matrix and
+                $$\mathbf b=\mathbf b(\mathbf u_k;\mu_1)\;\;\iff\;\; \mathbf u_k=\mu_1=1;$$
+                \item $\mathbf A$, $\mathbf b$ and $\mathbf g$ are always affine w.r.t. $\boldsymbol\mu$;
+                \item $\mathbf B(\mathbf u_k;\mu_1)$ and $\mathbf b(\mathbf u_k;\mu_1)$ are always \textit{not} affine w.r.t. $\mu_1$;
+                \item $\mathbf g$ is affine w.r.t. $\boldsymbol\mu$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
+            \end{itemize}
+
+            The update rule in \eqref{eqUpdateRuleNewtonMethod} becomes
+            %
+            \begin{equation}
+                \label{eqGalerUpdateRuleNewtonMethod}
+                \mathbf u_{k+1}(\boldsymbol\mu)
+                =\mathbf u_k(\boldsymbol\mu)
+                +\delta\mathbf u(\boldsymbol\mu).
+            \end{equation}
+
         \subsection{Proper Orthogonal Decomposition (POD)}\label{secPOD}
 
             POD is known to lead to fast and reliable evaluations of the solution for new parameter values by building the reduced space; in the affine parameter case POD allow us to decouple the computation in offline and online phases too, reducing even greatly the computational costs.
@@ -266,6 +433,8 @@
     
     \section{Numerical studies}\label{secNumericalStudies}
     
+        In this section the reduced solution seen in § \ref{secNumericalStudies} are compared in terms of computational costs and accuracy with respect to the FOM one.
+
         \textbf{
             Introduzione con 
             \begin{itemize}
