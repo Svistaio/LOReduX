@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.4)  1 SEP 2025 12:38
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024) (preloaded format=pdflatex 2025.1.4)  1 SEP 2025 12:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -733,14 +733,7 @@ Package siunitx Info: Option "scientific-notation = false" has been deprecated
 File: l3backend-pdftex.def 2024-05-08 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count366
 \l__pdf_internal_box=\box83
-) (./Report.aux
-
-LaTeX Warning: Label `eqCovarianceMatrixEigenProblem' multiply defined.
-
-
-LaTeX Warning: Label `eqCovarianceMatrixEigenProblem@cref' multiply defined.
-
-)
+) (./Report.aux)
 \openout1 = `Report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 32.
@@ -921,22 +914,19 @@ L3 programming layer <2024-12-09>
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 2.25pt have occurred.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `Report.out' has not changed.
 (rerunfilecheck)             Checksum: BBCB4D6CAE5AFBA7F1F1722728B972F7;2118.
  ) 
 Here is how much of TeX's memory you used:
- 43323 strings out of 473253
- 1020666 string characters out of 5722051
- 1521631 words of memory out of 5000000
- 65644 multiletter control sequences out of 15000+600000
+ 43325 strings out of 473253
+ 1020757 string characters out of 5722051
+ 1521694 words of memory out of 5000000
+ 65646 multiletter control sequences out of 15000+600000
  630640 words of font info for 251 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  89i,20n,100p,1126b,1213s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Report.pdf (4 pages, 301484 bytes).
+Output written on Report.pdf (4 pages, 301496 bytes).
 PDF statistics:
  280 PDF objects out of 1000 (max. 8388607)
  214 compressed objects within 3 object streams

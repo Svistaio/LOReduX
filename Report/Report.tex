@@ -445,7 +445,7 @@
             However, the eigenvectors $\{\boldomega^k\}_{k=1}^\Nrho$ are still in $\mBB R^M$ while $\{\boldxi^k\}_{k=1}^\Nrho$ lie in $\mBB R^\Ndelta$; to transform them accordingly it is sufficient to notice how \eqref{eqCovarianceMatrixEigenProblem} changes with \eqref{eqCovarianceMatrixDefinition}:
             %
             \begin{equation}
-                \label{eqCovarianceMatrixEigenProblem}
+                \label{eqTransformedCovarianceMatrixEigenProblem}
                 \newcommand\implica{\;\;\implies\;\;}
                 \begin{aligned}
                     \eqref{eqCovarianceMatrixEigenProblem}&\implica
@@ -468,48 +468,45 @@
             
         \subsection{Physics-Informed Neural Networks (PINN)}\label{secPINN}
     
-            In nonlinear frameworks, to overcome some of the limitations of the POD method and to exploit the advantages of the division in online and offline phases, the recent advances in machine learning have opened new opportunities for solving PDEs. In particular, PINN is a flexible approach that directly uses the equations into the training process of a neural network, it incorporates physical laws given by the differential equations into the loss functions to take advantages in the learning process. This allows PINNs to deal with complex and parametric problems in a data efficient and mesh free way.
+            In non-linear frameworks, to overcome some POD method's limitations and to exploit the advantages of the division in online and offline phases, the use of the neural networks has opened new opportunities for solving PDEs. In particular, PINN is a flexible approach that directly uses the equations into the training process of a neural network, it incorporates physical laws given by the differential equations into the loss functions, by considering the residual of the PDE, to take advantages in the learning process. This allows PINNs to deal with complex and parametric problems in a data efficient and mesh free way.
 
-            Having a general parametric nonlinear partial differential equation, PINNs are neural networks that are trained to solve supervised learning tasks while respecting the laws of physics described by the given equations. The main idea is to incorporate into the loss function both the information obtained from the data and the physical model. The physics-informed term is like a prior knowledge that provides more information to the PINN without the need for more measurements, but only by evaluating the residual of the PDE at additional points in the domain. In our case, we want to approximate the solution of the PDE by considering two contributions to the loss function: one related to boundary information and the other to residual information. 
+            The main idea is to incorporate into the loss function both the information obtained from the data and the physical model. The physics-informed term is like a prior knowledge that provides more information to the PINN without the need for more measurements, but only by evaluating the residual of the PDE at additional points in the domain. In our case, we want to approximate the solution of the PDE by considering two contributions to the loss function: one related to boundary information and the other to residual. 
             
             The general structure of the parametric PINN method can be summarized as follows:
             %
             \begin{equation}
                 \label{eq:NN}
                 \begin{aligned}
-                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mBB{V}^\boldmu, \\
-                    & (x,\boldmu) \mapsto \hat{u}(x,\boldmu) \approx u(x,\boldmu).
+                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mathbb{R}^{N_\delta}, \\
+                    & (\mathbf x,\boldmu) \mapsto \hat{\mathbf u}^\boldmu(\mathbf x) \approx \mathbf u^\boldmu(\mathbf x).
                 \end{aligned}
             \end{equation}
             %
-            where $u(x,\boldmu)$ is the exact solution of the PDE and $\mBB{V}^\boldmu$ is the functional space where the solution lies. 
-            PINNs use optimization algorithms to update the network parameters until the value of the loss function is decreased to a prespecified level. 
-            
-            Given the neural network $v(x,\boldmu) \in \mathcal{F}_{NN}$, the loss function is defined as:
+            where $ \mathbf u^\boldmu(\mathbf x)$ is the vector of coefficients associated with the Galerkin framework, whose entries correspond to the weights of the basis functions. 
+            The neural network is a fully-connected feed-forward neural network with $n_{\mathrm{HL}}$ hidden layers, each of width $n_{\mathrm H}$.
+
+            The training process is given by the minimization of the loss function define as:
             %
             \begin{equation}
                 \MSE=\MSE^\boldmu_b+\lambda \MSE^\boldmu_p
             \end{equation}
             %
-            where $\MSE^\boldmu_b$ is the boundary loss, $\MSE^\boldmu_p$ is the physical loss and $\lambda$ is the hyperparameter that balances the tradeoff between the two contributions, to be set before the network training.
+            where $\MSE$ is the Mean Squared Error and we compute it for the boundary points using $\MSE^\boldmu_b$, this enforces the condition $u^\boldmu=0$, while for the inner points the residual loss $\MSE^\boldmu_p$. Finally, $\lambda$ is the hyperparameter that balances the trade-off between the two contributions, to be set before the network training.
+
             
-            In particular, if the physical system we are studying is described by a PDE of the form $\mathcal R(u(x,\boldmu))=0$, the errors are given by:
+            In particular, by considering our problem, the errors are given by:
             %
             \begin{equation*}
-                \MSE^\boldmu_b=\frac{1}{N_b} \sum_{k=1}^{N_b} | v(x^b_k,\boldmu_k^b) - u(x_k^b,\boldmu_k^b)|^2,
+                \MSE^\boldmu_b=\frac{1}{N_b}\sum_{k=1}^{N_b}\left|\hat u^\boldmu(\mathbf x^b_k;\theta)-u^\boldmu(\mathbf x^b_k)\right|^2,
             \end{equation*} 
             %       
             \begin{equation*}
-               \MSE^\boldmu_{p}=\frac{1}{N_p}\sum_{k=1}^{N_p}|\mathcal R(v(x^p_k,\boldmu_k^p))|^2
+               \MSE^{\boldmu}_{p}=\frac{1}{N_p}\sum_{k=1}^{N_p} \left| -\Delta \hat u^{\boldmu}(\mathbf x^p_k)+h^\boldmu(\hat u^{\boldmu}(\mathbf x^p_k)) -g^{\boldmu}(\mathbf x^p_k)-\frac{\mu_0}{\mu_1}\right|^2
             \end{equation*}
             %
-            for $(x^b_k,\boldmu_k^b) \in (\partial \Omega, \mathcal{P})$ and $(x^p_k,\boldmu_k^p) \in (\Omega, \mathcal{P})$.
-            
-            Finally, the solution approximation is given by
-            %
-            \begin{equation}
-                \hat{u}(x,\boldmu):= \operatorname*{argmin}_{v \in \mathcal{F}_{NN}} \MSE.
-            \end{equation}
+            for $x^{b}_k \in \partial \Omega$ and $x^p_k \in \Omega$ are the selected points in which we compute the loss and $N_b$, $N_p$ denote respectively the number of boundary and interior points. This is a mesh-free approach, so we need to randomly select the boundary points and interior points by fixing the number of them, which is needed to build the network.  
+            The hyperparameter $\lambda$ balances the relative importance of the two contributions.  
+            Rather than fixing $\lambda$ a priori, we dynamically adapt its value during the training. It is updated at each iteration depending on the relative magnitude of $\MSE^\boldmu_b$ and $\MSE^\boldmu_p$. In practice, if one loss term dominates the other, $\lambda$ is modified so as to increase the weight of the weaker contribution, in this way we can balance in a better way the losses and we can be sure that the network is not optimized by relying too much neither over the boundary part nor over the inner part. In this way, the overall stability of the training process is improved.
     
         \subsection{POD-NN hybrid approach}\label{secPODNN}
     
