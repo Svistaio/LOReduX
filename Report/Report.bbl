@@ -20,6 +20,9 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
+\bibitem{giordano2017geometria}
+V.~Giordano, \emph{Geometria e algebra lineare}.\hskip 1em plus 0.5em minus 0.4em\relax Mondadori Universit{\`a}, 2017.
+
 \bibitem{dispenseMEDePA}
 S.~Berrone and C.~Canuto, \emph{Notes of the lecture course numerical methods for partial differential equations.}\hskip 1em plus 0.5em minus 0.4em\relax Non-published notes of the course on "Metodi numerici per le equazioni alle derivate parziali" at the Politecnico di Torino, 2024.
 

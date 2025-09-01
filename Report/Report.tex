@@ -85,14 +85,14 @@
     
         In the following, we talk about the discussed PDE and briefly describe the four approaches studied to solve it.
 
-        It's noteworthy that, for the sake of notational brevity, the [explicit] dependency on the parameters $\boldmu$ in any function $f$ is represented as a superscript: $f^\boldmu\equiv f(\mathbf x;\boldmu)$.
+        It's noteworthy that, for the sake of notational brevity, the [explicit] dependency on the parameters $\boldmu$ in any function $f$ is represented as a superscript: $f^\boldmu\equiv f(\mBF x;\boldmu)$.
         % Explicit dependency means that a function depend on the parameters regardless of its arguments like (k^μ(·,·) with the ratio μ₀/μ₁ and the exponent exp(μ₁u^μ)); conversely, if the function depends on the parameters only through one of its arguments, then it should not have a superscript (like a(·,·) with u^μ)
 
         \subsection{PDE definition}
 
             The nonlinear elliptic PDE studied consist of finding
             $$
-                u^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
+                u^\boldmu(\mBF x):\Omega\times\mathcal P\to\mBB R
             $$
             such that it's the solution, for some fixed parameters
             $$
@@ -128,11 +128,11 @@
             %
             is the nonlinear functional term on a space $V$ later defined,
             $$
-                g^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
+                g^\boldmu(\mBF x):\Omega\times\mathcal P\to\mBB R
             $$
             is the source term to be defined while
             $$
-                \mathbf x\equiv(x_0,x_1)\in\Omega=(0,1)^2
+                \mBF x\equiv(x_0,x_1)\in\Omega=(0,1)^2
             $$
             is the spatial square domain. For the source term two different cases are considered:
             
@@ -140,25 +140,25 @@
                 label=C\arabic*.,
                 rightmargin=0cm
             ]
-                \item\label{hypIndependentSourceTerm} independent of $\boldmu$ with $g^\boldmu(\mathbf x)\equiv g_1(\mathbf x)$ where:
+                \item\label{hypIndependentSourceTerm} independent of $\boldmu$ with $g^\boldmu(\mBF x)\equiv g_1(\mBF x)$ where:
                     %
                     \begin{equation}
                         \label{eqIndependentSourceTerm}
                         \begin{aligned}
-                            g_1(\mathbf x)&\equiv
+                            g_1(\mBF x)&\equiv
                             100\sin(2\pi x_0)\cos(2\pi x_1)\\[-3.5ex]
                             &\hphantom{\equiv100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)}
                         \end{aligned}
-                        %   \quad\forall\mathbf x\in\Omega
+                        %   \quad\forall\mBF x\in\Omega
                     \end{equation}
             
-                \item\label{hypDependentSourceTerm} dependent on $\boldmu$ with $g^\boldmu(\mathbf x)\equiv g^{\mu_0}_2(\mathbf x)$ where:
+                \item\label{hypDependentSourceTerm} dependent on $\boldmu$ with $g^\boldmu(\mBF x)\equiv g^{\mu_0}_2(\mBF x)$ where:
                     %
                     \begin{equation}
                         \label{eqDependentSourceTerm}
-                        g^{\mu_0}_2(\mathbf x)\equiv
+                        g^{\mu_0}_2(\mBF x)\equiv
                         100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)
-                        %   \quad\forall\mathbf x\in\Omega
+                        %   \quad\forall\mBF x\in\Omega
                     \end{equation}
             \end{enumerate}
             
@@ -185,17 +185,19 @@
                 % \SpazMate{1}{1}{1}
                 \newcommand\sepSpace{\quad}
                 \begin{alignedat}{2}
-                    a:&V\times V\to\mathbb R,%\\&&&
+                    a:&V\times V\to\mBB R,%\\&&&
                     &\sepSpace(u,v)&\mapsto a(u,v)\equiv
                     \int_\Omega\nabla u\cdot\nabla v;\\
-                    k^\boldmu:&V\times V\to\mathbb R,%\\&&&
+                    k^\boldmu:&V\times V\to\mBB R,%\\&&&
                     &\sepSpace(u,v)&\mapsto k^\boldmu(u,v)\equiv
                     \int_\Omega h^\boldmu(u)v;\\
-                    F^\boldmu:&V\to\mathbb R,
+                    F^\boldmu:&V\to\mBB R,
                     &\sepSpace v&\mapsto F^\boldmu(v)\equiv
-                    \int_\Omega\left(g^\boldmu+\frac{\mu_0}{\mu_1}\right)v.
+                    \int_\Omega\left(g^\boldmu+\frac{\mu_0}{\mu_1}\right)v,
                 \end{alignedat}
             \end{equation*}
+            %
+            for which we assume that $a$ is continuous and coercive with constants $\gamma\in\mBB R<+\infty$ and $\alpha\in\mBB R>0$ respectively.
             
         \subsection{Full order model (FOM)}
 
@@ -311,38 +313,38 @@
             in which
             %
             \begin{equation*}
-                b:V\times V\to\mathbb R,\quad
+                b:V\times V\to\mBB R,\quad
                 (u,v)\mapsto b(u,v)
                 \equiv\int_\Omega u v.
             \end{equation*}
             %
-            Introducing now a set of basis function $\{\varphi_k\}_{k=1}^{N_\delta}$ such that $V_\delta=\spanOp\{\varphi_k\}_{k=1}^{N_\delta}$, leads to the linear system
+            Introducing now a set of basis function $\{\varphi_k\}_{k=1}^\Ndelta$ such that $V_\delta=\spanOp\{\varphi_k\}_{k=1}^\Ndelta$, leads to the linear system
             %
             \begin{equation}
                 \label{eqGalerIterLS}
-                \mathbf S^\boldmu_n\delta\mathbf u^\boldmu_n
-                =\mathbf y^\boldmu_n,
+                \mBF S^\boldmu_n\delta\mBF u^\boldmu_n
+                =\mBF y^\boldmu_n,
             \end{equation}
             %
             where
             $$
-                \mathbf S^\boldmu_n
-                \equiv\mathbf S^\boldmu(\mathbf u^\boldmu_{\delta,n})
-                \in\mathbb R^{\Ndelta\times\Ndelta}
+                \mBF S^\boldmu_n
+                \equiv\mBF S^\boldmu(\mBF u^\boldmu_{\delta,n})
+                \in\mBB R^{\Ndelta\times\Ndelta}
                 \quad\text{and}\quad
-                \mathbf y^\boldmu_n
-                \equiv\mathbf y^\boldmu(\mathbf u^\boldmu_{\delta,n})
-                \in\mathbb R^\Ndelta
+                \mBF y^\boldmu_n
+                \equiv\mBF y^\boldmu(\mBF u^\boldmu_{\delta,n})
+                \in\mBB R^\Ndelta
             $$
             have the following definition
             %
             \begin{equation*}
                 \begin{aligned}
-                    \mathbf S^\boldmu_n&\equiv
-                    \mathbf A+\mu_0\mathbf B^{\mu_1}_n,\\
-                    \mathbf y^\boldmu_n&\equiv-\mathbf a_n
-                    -\frac{\mu_0}{\mu_1}(\mathbf b^{\mu_1}_n-\mathbf b)
-                    +\mathbf g^\boldmu.
+                    \mBF S^\boldmu_n&\equiv
+                    \mBF A+\mu_0\mBF B^{\mu_1}_n,\\
+                    \mBF y^\boldmu_n&\equiv-\mBF a_n
+                    -\frac{\mu_0}{\mu_1}(\mBF b^{\mu_1}_n-\mBF b)
+                    +\mBF g^\boldmu.
                 \end{aligned}
             \end{equation*}
             %
@@ -356,53 +358,113 @@
                     %
                     \begin{equation}
                         \label{eqGalerUpdateRuleNewtonMethod}
-                        \mathbf u_{\delta,n+1}^\boldmu
-                        =\mathbf u_{\delta,n}^\boldmu
-                        +\delta\mathbf u_n^\boldmu
+                        \mBF u_{\delta,n+1}^\boldmu
+                        =\mBF u_{\delta,n}^\boldmu
+                        +\delta\mBF u_n^\boldmu
                     \end{equation}
                     %
                     where now every term is are vectors carrying the weights associated to the basis functions;
 
-                \item $\mathbf A$ is the stiffness matrix ($A_{ij}\equiv a(\varphi_j,\varphi_i)$), $\mathbf b$ is $\mathbf b_j\equiv b(1,\varphi_j)$ while $\mathbf b^{\mu_1}_n$ is $(\mathbf b^{\mu_1}_n)_j\equiv b(e^{\mu_1u^\boldmu_{\delta,n}},\varphi_j)$;
+                \item $\mBF A$ is the stiffness matrix ($A_{ij}\equiv a(\varphi_j,\varphi_i)$), $\mBF b$ is $\mBF b_j\equiv b(1,\varphi_j)$ while $\mBF b^{\mu_1}_n$ is $(\mBF b^{\mu_1}_n)_j\equiv b(e^{\mu_1u^\boldmu_{\delta,n}},\varphi_j)$;
                 
-                \item $\mathbf A$, $\mathbf b$ and $\mathbf g$ are always affine w.r.t. $\boldmu$;
+                \item $\mBF A$, $\mBF b$ and $\mBF g$ are always affine w.r.t. $\boldmu$;
                 
-                \item $\mathbf B_n^{\mu_1}$ and $\mathbf b_n^{\mu_1}$ are always \textit{not} affine w.r.t. $\mu_1$;
+                \item $\mBF B_n^{\mu_1}$ and $\mBF b_n^{\mu_1}$ are always \textit{not} affine w.r.t. $\mu_1$;
                 
-                \item $\mathbf g^\boldmu_n$ is affine w.r.t. $\mu_0$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
+                \item $\mBF g^\boldmu_n$ is affine w.r.t. $\mu_0$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
             \end{itemize}
 
         \subsection{Proper Orthogonal Decomposition (POD)}\label{secPOD}
 
-            POD is known to lead to fast and reliable evaluations of the solution for new parameter values by building the reduced space; in the affine parameter case POD allow us to decouple the computation in offline and online phases too, reducing even greatly the computational costs.
-    
-            Considering a parametrized partial differential equation whose solution lies in the functional space $\mathbb{V}^\boldmu$, POD is an algorithm for the generation of the reduced basis based on two different stages:
-            
-            \begin{enumerate}
-                \item we explore the information related to the solution that varies with respect to $\boldsymbol \mu$ in a finite dimensional set $\mathcal P_{M} \subset \mathcal P$ of dimension $M$.
-                \item we compress the information and we build a linear subspace $\mathbb V_N \subset \mathbb V_{\delta}$ of dimension $N \ll N_{\delta}$.
-            \end{enumerate}
-            
-            Building the space and storing the $\boldsymbol \mu$-independent quantities is the offline phase, which depends on the dimension of the original discrete model.
-            Once the space is built, a fast online phase occurs, where we can compute many solutions in real time for new instances of the parameter input.
-            
-            In case of a linear PDE with an affine dependence on the parameters, one can easily decouple the online step from the full-order numerical scheme, so that the cost of any online query is uniquely related to the dimension of the reduced space by means of the affine decomposition. However, for differential problems with a non affine parametric dependence one needs some further actions to guarantee a significant computational saving with respect to the underlying full order model.
-            
-            In the POD method, to find the basis for our reduced space, we need to define the correlation matrix $\mathbf{C} \in \mathbb{R}^{M \times M}$. First, we select $M$ solutions $\omega_m=u^\boldmu_\delta(\boldmu_m) \in \mathbb{V}_{\delta}$ from the high fidelity problem. Then we solve the eigenvalue problem:
-            %
+            POD is strategy that aims to reduce computational costs by solving the system \eqref{eqGalerIterLS} in a reduced space $V_\rho\subseteq V_\delta$ of dimension $\Nrho\ll\Ndelta$: assume to know the basis function $\{\xi_k\}_{k=1}^\Nrho\in V_\delta$ of such reduced space (i.e. $V_\rho=\spanOp\{\xi_k\}_{k=1}^\Nrho$); then it's possible to express each function w.r.t. $\{\varphi_k\}_{k=1}^\Ndelta$, obtaining the basis matrix 
+            $$
+                \ReducedBase=[\boldxi^1\cdots\boldxi^\Nrho]\in\mBB R^{\Ndelta\times\Nrho};
+            $$
+            given a vector $v\in\mBB R^\Nrho$, one has $\ReducedBase v\in\mBB R^\Ndelta$, that is $\ReducedBase$ can be seen as a projection from $V_\rho$ to $V_\delta$ and the same can be said for the inverse projection with $\ReducedBase^\top$; thus, defining $\delta\hat{\mBF u}^\boldmu_n$ such that $\delta\mBF u^\boldmu_n=\ReducedBase\delta\hat{\mBF u}^\boldmu_n$, \eqref{eqGalerIterLS} becomes:
             \begin{equation}
-                \label{eq:eig}
-                \mathbf{C} \alpha_m= \lambda_m \alpha_m \quad \text{for } m \in \{ 1, \cdots,M \}.
+                \label{eqReducedGalerIterLS}
+                \hat{\mBF S}^\boldmu_n\delta\hat{\mBF u}^\boldmu_n
+                =\hat{\mBF y}^\boldmu_n,
             \end{equation}
             %
-            The correlation matrix has a good property: it is symmetric positive semi-definite. So, we can order the all-positive eigenvalues as $\lambda_1\ge\dots\ge\lambda_M\ge0$ and retain the first $N$ eigen-pairs $(\lambda_n, \alpha_n)$ for $1 \leq n \leq N$. In this way, we obtain the linear independent basis function that we use to build the reduced space. Indeed, having all the ingredients defined above, we can compute:
+            in which $\hat{\mBF S}^\boldmu_n\equiv\ReducedBase^\top\mBF S^\boldmu_n\ReducedBase$ and $\hat{\mBF y}^\boldmu_n\equiv\ReducedBase^\top\mBF y^\boldmu_n$. The strategy can be summarized using the following commutative diagram: 
+            $$
+                \begin{tikzcd}[
+                    row sep=1cm,
+                    column sep=2cm,
+                ]
+                    V_\delta
+                    \arrow[r,"\mBF S^\boldmu_n\delta\mBF u^\boldmu_n=\mBF y^\boldmu_n"] 
+                    \arrow[d,"\ReducedBase^\top"']&
+                    V_\delta\arrow[d,"\ReducedBase",leftarrow]\\
+                    V_\rho
+                    \arrow[r,"\hat{\mBF S}^\boldmu_n\delta\hat{\mBF u}^\boldmu_n=\hat{\mBF y}^\boldmu_n"]&
+                    V_\rho
+                \end{tikzcd},
+            $$
+            where one hopes the reduced path is less computationally demanding than the full one. Of course, as mentioned before, both the iterative and non-affine nature of \eqref{eqGalerIterLS} hinders this chance, though only numerical studies in \S{} \ref{secNumericalStudies} can confirm if that's truly the case.
+
+            To find $\ReducedBase$ consider $M\ll\Ndelta$, but large enough so that $M\gg\Nrho$, FOM solutions $\mBF u^n_\delta\equiv\mBF u^{\boldmu_n}_\delta$, $1\le n\le M$, of \refVarGalerNLEllPDE{} with uniformly varying parameters $\boldmu$, called snapshots, and define
+            $$
+                \mBB U\equiv
+                \begin{bmatrix}
+                    \mBF u^1_\delta&
+                    \cdots&
+                    \mBF u^M_\delta
+                \end{bmatrix}^\top
+                \in\mBB R^{M\times\Ndelta}
+            $$
+            as the matrix whose rows are the snapshots.
+            
+            Much of the information inside $\mBB U$ is redundant, so one then needs to compress it via the correlation matrix
             %
             \begin{equation}
-                \label{eq:eigfunc}
-                \chi_n= \sum_{m=1}^{M} (\alpha_n)_m \omega_m,  \quad \quad 1 \leq n \leq N,
+                \label{eqCovarianceMatrixDefinition}
+                \mBF C\equiv\mBB U\mBF A\mBB U^\top\in\mBB R^{M\times M};
             \end{equation}
             %
-            and normalize them, obtaining $\psi_n=\dfrac{\chi_n}{\lvert \lvert \chi_n \rvert \rvert_{\mathbb V}}$. 
+            indeed, by solving the eigenvalue problem
+            %
+            \begin{equation}
+                \label{eqCovarianceMatrixEigenProblem}
+                \mBF C\boldomega^i=\lambda_i\boldomega^i,\quad1\le i\le M,
+            \end{equation}
+            %
+            it holds
+            %
+            \begin{equation}
+                \label{eqErrorCovarianceEigenVectors}
+                \text{err}^2_{M,\rho}
+                =\sum_{i=1}^M
+                \Vert u_\delta^i-P_\rho(u_\delta^i)\Vert_V^2=
+                \sum_{i=\Nrho+1}^M\lambda_i,
+            \end{equation}
+            %
+            where $P_\rho:V_\delta\to V_\rho$ is the projection operator to the reduced space. In essence \eqref{eqErrorCovarianceEigenVectors} says that the most important eigenvectors, \ie{} those that retain all significant variance, are those with the largest eigenvalues; and since $\mBF C$ is real, symmetric and positive semi-definite, we can order the all-positive eigenvalues as $$\lambda_1\ge\dots\ge\lambda_M\ge0$$ and take only the first $\Nrho$ so that $\text{err}^2_{M,\rho}\approx0$.
+
+            However, the eigenvectors $\{\boldomega^k\}_{k=1}^\Nrho$ are still in $\mBB R^M$ while $\{\boldxi^k\}_{k=1}^\Nrho$ lie in $\mBB R^\Ndelta$; to transform them accordingly it is sufficient to notice how \eqref{eqCovarianceMatrixEigenProblem} changes with \eqref{eqCovarianceMatrixDefinition}:
+            %
+            \begin{equation}
+                \label{eqCovarianceMatrixEigenProblem}
+                \newcommand\implica{\;\;\implies\;\;}
+                \begin{aligned}
+                    \eqref{eqCovarianceMatrixEigenProblem}&\implica
+                    \mBB U\mBF A\mBB U^\top\boldomega^i=\lambda_i\boldomega^i,
+                    \\&\implica
+                    \mBF A\mBB U^\top\boldomega^i=\lambda_i\mBB U^\top\boldomega^i,
+                    \\&\implica
+                    \mBF A\boldchi^i=\lambda_i\boldchi^i,
+                    \quad1\le i\le M,
+                \end{aligned}
+            \end{equation}
+            %
+            where $\boldchi^i=\mBB U^\top\boldomega^i$, $1\le i\le N_\rho$, is the transformation sought which also proves $\boldchi^i$ are the eigenvectors of the stiffness matrix
+            \footnote{The stiffness matrix shares many properties of $\mBF C$: by definition ($A_{ij}\equiv a(\varphi_j,\varphi_i)$) it's real, symmetric and due to the coercivity of $a$ ($a(v,v)\ge\alpha\Vert v\Vert^2_V\;\;\;\forall v\in V$) it's also definite positive.}.
+            
+            The last step comes from linear algebra: in fact, we know thnaks to the spectral theorem that both ${\boldchi^k}_{k=1}^\Nrho$ and $\{\boldomega^k\}_{k=1}^\Nrho$ are only orthogonal to one another\cite[\S 6.3 p. 286]{giordano2017geometria}; hence the reduced basis vectors are obtained by simply normalizing them:
+            $$
+                \boldxi^i\equiv\frac{\boldchi^i}{\Vert\boldchi^i\Vert_V}.
+            $$
             
         \subsection{Physics-Informed Neural Networks (PINN)}\label{secPINN}
     
@@ -415,12 +477,12 @@
             \begin{equation}
                 \label{eq:NN}
                 \begin{aligned}
-                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mathbb{V}^\boldmu, \\
+                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mBB{V}^\boldmu, \\
                     & (x,\boldmu) \mapsto \hat{u}(x,\boldmu) \approx u(x,\boldmu).
                 \end{aligned}
             \end{equation}
             %
-            where $u(x,\boldmu)$ is the exact solution of the PDE and $\mathbb{V}^\boldmu$ is the functional space where the solution lies. 
+            where $u(x,\boldmu)$ is the exact solution of the PDE and $\mBB{V}^\boldmu$ is the functional space where the solution lies. 
             PINNs use optimization algorithms to update the network parameters until the value of the loss function is decreased to a prespecified level. 
             
             Given the neural network $v(x,\boldmu) \in \mathcal{F}_{NN}$, the loss function is defined as:
@@ -460,7 +522,7 @@
             \begin{equation}
                 \label{eq:podNN}
                 \begin{aligned}
-                    \pi_{NN} \colon \quad & \mathcal{P} \to \mathbb{R}^{N}, \\
+                    \pi_{NN} \colon \quad & \mathcal{P} \to \mBB{R}^{N}, \\
                     &\boldmu^* \mapsto \boldsymbol u^{NN}_{N}(\boldmu^*) 
                 \end{aligned}
             \end{equation}
@@ -469,10 +531,10 @@
             For the output, which has the form $\boldsymbol u^{NN}_N$, the following relation holds:
             %
             \begin{equation*}
-                \mathbb B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mathbb P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
+                \mBB B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mBB P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
             \end{equation*}
             %
-            where $\mathbb B \in \mathbb{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mathbb P^{\boldsymbol \mu}=\mathbb B \mathbb P_{\delta \to N} \in \mathbb{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u^\boldmu_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u^\boldmu_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
+            where $\mBB B \in \mBB{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mBB P^{\boldsymbol \mu}=\mBB B \mBB P_{\delta \to N} \in \mBB{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u^\boldmu_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u^\boldmu_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
             To train the network, we minimize the loss given by the distance between the exact $u_N$ solution and the network approximation:
             %
             \begin{equation}
