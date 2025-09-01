@@ -5488,8 +5488,8 @@ between column types.}%
 
 % for both journals and conferences
 % decided to put in a little rubber above the section, might help somebody
-\def\subsubsection{\@startsection{subsubsection}{3}{\parindent}{0ex plus 0.1ex minus 0.1ex}%
-{0ex}{\normalfont\normalsize\itshape}}%
+\def\subsubsection{\@startsection{subsubsection}{3}{0\parindent}{1ex plus 0.1ex minus 0.1ex}%
+{.1ex plus 0.1ex minus 0.1ex}{\normalfont\normalsize\bfseries\itshape}}%
 \def\paragraph{\@startsection{paragraph}{4}{2\parindent}{0ex plus 0.1ex minus 0.1ex}%
 {0ex}{\normalfont\normalsize\itshape}}%
 

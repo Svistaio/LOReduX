@@ -81,18 +81,18 @@
 
     %
     
-    \section{PDE definition and methods}\label{secModelDef}
+    \section{Problem definition and methods}\label{secModelDef}
     
         In the following, we talk about the discussed PDE and briefly describe the four approaches studied to solve it.
 
-        It's noteworthy that, for the sake of notational brevity, the [explicit] dependency on the parameters $\boldmu$ in any function $f$ is represented as a superscript: $f^\boldmu\equiv f(\mBF x;\boldmu)$.
+        It's noteworthy that, for the sake of notational brevity, the [explicit] dependency on the parameters $\boldmu$ in any function $f$ is represented as a superscript: $f^\boldmu\equiv f(\mathbf x;\boldmu)$.
         % Explicit dependency means that a function depend on the parameters regardless of its arguments like (k^μ(·,·) with the ratio μ₀/μ₁ and the exponent exp(μ₁u^μ)); conversely, if the function depends on the parameters only through one of its arguments, then it should not have a superscript (like a(·,·) with u^μ)
 
         \subsection{PDE definition}
 
             The nonlinear elliptic PDE studied consist of finding
             $$
-                u^\boldmu(\mBF x):\Omega\times\mathcal P\to\mBB R
+                u^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
             $$
             such that it's the solution, for some fixed parameters
             $$
@@ -128,11 +128,11 @@
             %
             is the nonlinear functional term on a space $V$ later defined,
             $$
-                g^\boldmu(\mBF x):\Omega\times\mathcal P\to\mBB R
+                g^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
             $$
             is the source term to be defined while
             $$
-                \mBF x\equiv(x_0,x_1)\in\Omega=(0,1)^2
+                \mathbf x\equiv(x_0,x_1)\in\Omega=(0,1)^2
             $$
             is the spatial square domain. For the source term two different cases are considered:
             
@@ -140,25 +140,25 @@
                 label=C\arabic*.,
                 rightmargin=0cm
             ]
-                \item\label{hypIndependentSourceTerm} independent of $\boldmu$ with $g^\boldmu(\mBF x)\equiv g_1(\mBF x)$ where:
+                \item\label{hypIndependentSourceTerm} independent of $\boldmu$ with $g^\boldmu(\mathbf x)\equiv g_1(\mathbf x)$ where:
                     %
                     \begin{equation}
                         \label{eqIndependentSourceTerm}
                         \begin{aligned}
-                            g_1(\mBF x)&\equiv
+                            g_1(\mathbf x)&\equiv
                             100\sin(2\pi x_0)\cos(2\pi x_1)\\[-3.5ex]
                             &\hphantom{\equiv100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)}
                         \end{aligned}
-                        %   \quad\forall\mBF x\in\Omega
+                        %   \quad\forall\mathbf x\in\Omega
                     \end{equation}
             
-                \item\label{hypDependentSourceTerm} dependent on $\boldmu$ with $g^\boldmu(\mBF x)\equiv g^{\mu_0}_2(\mBF x)$ where:
+                \item\label{hypDependentSourceTerm} dependent on $\boldmu$ with $g^\boldmu(\mathbf x)\equiv g^{\mu_0}_2(\mathbf x)$ where:
                     %
                     \begin{equation}
                         \label{eqDependentSourceTerm}
-                        g^{\mu_0}_2(\mBF x)\equiv
+                        g^{\mu_0}_2(\mathbf x)\equiv
                         100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)
-                        %   \quad\forall\mBF x\in\Omega
+                        %   \quad\forall\mathbf x\in\Omega
                     \end{equation}
             \end{enumerate}
             
@@ -185,19 +185,17 @@
                 % \SpazMate{1}{1}{1}
                 \newcommand\sepSpace{\quad}
                 \begin{alignedat}{2}
-                    a:&V\times V\to\mBB R,%\\&&&
+                    a:&V\times V\to\mathbb R,%\\&&&
                     &\sepSpace(u,v)&\mapsto a(u,v)\equiv
                     \int_\Omega\nabla u\cdot\nabla v;\\
-                    k^\boldmu:&V\times V\to\mBB R,%\\&&&
+                    k^\boldmu:&V\times V\to\mathbb R,%\\&&&
                     &\sepSpace(u,v)&\mapsto k^\boldmu(u,v)\equiv
                     \int_\Omega h^\boldmu(u)v;\\
-                    F^\boldmu:&V\to\mBB R,
+                    F^\boldmu:&V\to\mathbb R,
                     &\sepSpace v&\mapsto F^\boldmu(v)\equiv
-                    \int_\Omega\left(g^\boldmu+\frac{\mu_0}{\mu_1}\right)v,
+                    \int_\Omega\left(g^\boldmu+\frac{\mu_0}{\mu_1}\right)v.
                 \end{alignedat}
             \end{equation*}
-            %
-            for which we assume that $a$ is continuous and coercive with constants $\gamma\in\mBB R<+\infty$ and $\alpha\in\mBB R>0$ respectively.
             
         \subsection{Full order model (FOM)}
 
@@ -313,38 +311,38 @@
             in which
             %
             \begin{equation*}
-                b:V\times V\to\mBB R,\quad
+                b:V\times V\to\mathbb R,\quad
                 (u,v)\mapsto b(u,v)
                 \equiv\int_\Omega u v.
             \end{equation*}
             %
-            Introducing now a set of basis function $\{\varphi_k\}_{k=1}^\Ndelta$ such that $V_\delta=\spanOp\{\varphi_k\}_{k=1}^\Ndelta$, leads to the linear system
+            Introducing now a set of basis function $\{\varphi_k\}_{k=1}^{N_\delta}$ such that $V_\delta=\spanOp\{\varphi_k\}_{k=1}^{N_\delta}$, leads to the linear system
             %
             \begin{equation}
                 \label{eqGalerIterLS}
-                \mBF S^\boldmu_n\delta\mBF u^\boldmu_n
-                =\mBF y^\boldmu_n,
+                \mathbf S^\boldmu_n\delta\mathbf u^\boldmu_n
+                =\mathbf y^\boldmu_n,
             \end{equation}
             %
             where
             $$
-                \mBF S^\boldmu_n
-                \equiv\mBF S^\boldmu(\mBF u^\boldmu_{\delta,n})
-                \in\mBB R^{\Ndelta\times\Ndelta}
+                \mathbf S^\boldmu_n
+                \equiv\mathbf S^\boldmu(\mathbf u^\boldmu_{\delta,n})
+                \in\mathbb R^{\Ndelta\times\Ndelta}
                 \quad\text{and}\quad
-                \mBF y^\boldmu_n
-                \equiv\mBF y^\boldmu(\mBF u^\boldmu_{\delta,n})
-                \in\mBB R^\Ndelta
+                \mathbf y^\boldmu_n
+                \equiv\mathbf y^\boldmu(\mathbf u^\boldmu_{\delta,n})
+                \in\mathbb R^\Ndelta
             $$
             have the following definition
             %
             \begin{equation*}
                 \begin{aligned}
-                    \mBF S^\boldmu_n&\equiv
-                    \mBF A+\mu_0\mBF B^{\mu_1}_n,\\
-                    \mBF y^\boldmu_n&\equiv-\mBF a_n
-                    -\frac{\mu_0}{\mu_1}(\mBF b^{\mu_1}_n-\mBF b)
-                    +\mBF g^\boldmu.
+                    \mathbf S^\boldmu_n&\equiv
+                    \mathbf A+\mu_0\mathbf B^{\mu_1}_n,\\
+                    \mathbf y^\boldmu_n&\equiv-\mathbf a_n
+                    -\frac{\mu_0}{\mu_1}(\mathbf b^{\mu_1}_n-\mathbf b)
+                    +\mathbf g^\boldmu.
                 \end{aligned}
             \end{equation*}
             %
@@ -358,20 +356,20 @@
                     %
                     \begin{equation}
                         \label{eqGalerUpdateRuleNewtonMethod}
-                        \mBF u_{\delta,n+1}^\boldmu
-                        =\mBF u_{\delta,n}^\boldmu
-                        +\delta\mBF u_n^\boldmu
+                        \mathbf u_{\delta,n+1}^\boldmu
+                        =\mathbf u_{\delta,n}^\boldmu
+                        +\delta\mathbf u_n^\boldmu
                     \end{equation}
                     %
                     where now every term is are vectors carrying the weights associated to the basis functions;
 
-                \item $\mBF A$ is the stiffness matrix ($A_{ij}\equiv a(\varphi_j,\varphi_i)$), $\mBF b$ is $\mBF b_j\equiv b(1,\varphi_j)$ while $\mBF b^{\mu_1}_n$ is $(\mBF b^{\mu_1}_n)_j\equiv b(e^{\mu_1u^\boldmu_{\delta,n}},\varphi_j)$;
+                \item $\mathbf A$ is the stiffness matrix ($A_{ij}\equiv a(\varphi_j,\varphi_i)$), $\mathbf b$ is $\mathbf b_j\equiv b(1,\varphi_j)$ while $\mathbf b^{\mu_1}_n$ is $(\mathbf b^{\mu_1}_n)_j\equiv b(e^{\mu_1u^\boldmu_{\delta,n}},\varphi_j)$;
                 
-                \item $\mBF A$, $\mBF b$ and $\mBF g$ are always affine w.r.t. $\boldmu$;
+                \item $\mathbf A$, $\mathbf b$ and $\mathbf g$ are always affine w.r.t. $\boldmu$;
                 
-                \item $\mBF B_n^{\mu_1}$ and $\mBF b_n^{\mu_1}$ are always \textit{not} affine w.r.t. $\mu_1$;
+                \item $\mathbf B_n^{\mu_1}$ and $\mathbf b_n^{\mu_1}$ are always \textit{not} affine w.r.t. $\mu_1$;
                 
-                \item $\mBF g^\boldmu_n$ is affine w.r.t. $\mu_0$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
+                \item $\mathbf g^\boldmu_n$ is affine w.r.t. $\mu_0$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
             \end{itemize}
 
         \subsection{Proper Orthogonal Decomposition (POD)}\label{secPOD}
@@ -402,7 +400,7 @@
                     V_\rho
                 \end{tikzcd},
             $$
-            where one hopes the reduced path is less computationally demanding than the full one. Of course, as mentioned before, both the iterative and non-affine nature of \eqref{eqGalerIterLS} hinders this chance, though only numerical studies in \S{} \ref{secNumericalStudies} can confirm if that's truly the case.
+            where one hopes the reduced path is less computationally demanding than the full one. Of course, as mentioned before, both the iterative and non-affine nature of \eqref{eqGalerIterLS} hinders this chance, though only numerical studies in \S{}  can confirm if that's truly the case.
 
             To find $\ReducedBase$ consider $M\ll\Ndelta$, but large enough so that $M\gg\Nrho$, FOM solutions $\mBF u^n_\delta\equiv\mBF u^{\boldmu_n}_\delta$, $1\le n\le M$, of \refVarGalerNLEllPDE{} with uniformly varying parameters $\boldmu$, called snapshots, and define
             $$
@@ -478,7 +476,7 @@
                 \label{eq:NN}
                 \begin{aligned}
                     \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mathbb{R}^{N_\delta}, \\
-                    & (\mathbf x,\boldmu) \mapsto \hat{\mathbf u}^\boldmu(\mathbf x) \approx \mathbf u^\boldmu(\mathbf x).
+                    & (\mathbf x,\boldmu) \mapsto \bar{u}^\boldmu(\mathbf x) \approx u^\boldmu(\mathbf x).
                 \end{aligned}
             \end{equation}
             %
@@ -497,17 +495,17 @@
             In particular, by considering our problem, the errors are given by:
             %
             \begin{equation*}
-                \MSE^\boldmu_b=\frac{1}{N_b}\sum_{k=1}^{N_b}\left|\hat u^\boldmu(\mathbf x^b_k;\theta)-u^\boldmu(\mathbf x^b_k)\right|^2,
+                \MSE^\boldmu_b=\frac{1}{N_b}\sum_{k=1}^{N_b}\left|\bar u^\boldmu(\mathbf x^b_k;\theta)-u^\boldmu(\mathbf x^b_k)\right|^2,
             \end{equation*} 
             %       
             \begin{equation*}
-               \MSE^{\boldmu}_{p}=\frac{1}{N_p}\sum_{k=1}^{N_p} \left| -\Delta \hat u^{\boldmu}(\mathbf x^p_k)+h^\boldmu(\hat u^{\boldmu}(\mathbf x^p_k)) -g^{\boldmu}(\mathbf x^p_k)-\frac{\mu_0}{\mu_1}\right|^2
+               \MSE^{\boldmu}_{p}=\frac{1}{N_p}\sum_{k=1}^{N_p} \left| -\Delta \bar u^{\boldmu}(\mathbf x^p_k)+h^\boldmu(\bar u^{\boldmu}(\mathbf x^p_k)) -g^{\boldmu}(\mathbf x^p_k)-\frac{\mu_0}{\mu_1}\right|^2
             \end{equation*}
             %
             for $x^{b}_k \in \partial \Omega$ and $x^p_k \in \Omega$ are the selected points in which we compute the loss and $N_b$, $N_p$ denote respectively the number of boundary and interior points. This is a mesh-free approach, so we need to randomly select the boundary points and interior points by fixing the number of them, which is needed to build the network.  
             The hyperparameter $\lambda$ balances the relative importance of the two contributions.  
             Rather than fixing $\lambda$ a priori, we dynamically adapt its value during the training. It is updated at each iteration depending on the relative magnitude of $\MSE^\boldmu_b$ and $\MSE^\boldmu_p$. In practice, if one loss term dominates the other, $\lambda$ is modified so as to increase the weight of the weaker contribution, in this way we can balance in a better way the losses and we can be sure that the network is not optimized by relying too much neither over the boundary part nor over the inner part. In this way, the overall stability of the training process is improved.
-    
+            
         \subsection{POD-NN hybrid approach}\label{secPODNN}
     
             By combining the previous two methods, we obtain a promising paradigm: the POD-NN hybrid approach. This leverages the dimensionality reduction given by POD to obtain a compact representation of the solution space while using a neural network to learn the parametric dependence of the reduced coefficients. This strategy maintains the accuracy of POD while exploiting the benefits of neural networks, providing a computationally efficient alternative to both the MOR and PINN approaches.
@@ -519,7 +517,7 @@
             \begin{equation}
                 \label{eq:podNN}
                 \begin{aligned}
-                    \pi_{NN} \colon \quad & \mathcal{P} \to \mBB{R}^{N}, \\
+                    \pi_{NN} \colon \quad & \mathcal{P} \to \mathbb{R}^{N}, \\
                     &\boldmu^* \mapsto \boldsymbol u^{NN}_{N}(\boldmu^*) 
                 \end{aligned}
             \end{equation}
@@ -528,10 +526,10 @@
             For the output, which has the form $\boldsymbol u^{NN}_N$, the following relation holds:
             %
             \begin{equation*}
-                \mBB B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mBB P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
+                \mathbb B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mathbb P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
             \end{equation*}
             %
-            where $\mBB B \in \mBB{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mBB P^{\boldsymbol \mu}=\mBB B \mBB P_{\delta \to N} \in \mBB{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u^\boldmu_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u^\boldmu_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
+            where $\mathbb B \in \mathbb{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mathbb P^{\boldsymbol \mu}=\mathbb B \mathbb P_{\delta \to N} \in \mathbb{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u^\boldmu_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u^\boldmu_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
             To train the network, we minimize the loss given by the distance between the exact $u_N$ solution and the network approximation:
             %
             \begin{equation}
@@ -545,30 +543,169 @@
             To sum up, we can compute offline the snapshots collection, apply the POD strategy and train the network. Then, we evaluate the network during the online phase. In this way, we exploit the POD properties and the online phase becomes very fast. In contrast, the offline phase is longer and the accuracy is more difficult to control.  
 
     %
-    
-    \section{Numerical studies}\label{secNumericalStudies}
-    
-        In this section the reduced solution seen in § \ref{secNumericalStudies} are compared in terms of computational costs and accuracy with respect to the FOM one.
+    \section{Settings and Results}
 
-        \textbf{
-            Introduzione con 
-            \begin{itemize}
-                \item 'set up' di simulazione
-                \item metriche usate per valutare risultati
-                \item confronti tra gli esperimenti 
-            \end{itemize}
-            Esperimenti nello specifico: confronti risultati con grafici
-        }
+        The entire project was developed in the \texttt{Python} programming language, using several key libraries for numerical computation and data processing. In particular, the \texttt{NumPy} library was used for basic vector and matrix operations, \texttt{GeDiM4Py} was employed to interface with the finite element solver, and \texttt{PyTorch} was used for implementing, training, and managing the neural networks in the PINN and POD-NN models.
         
-        \subsection{Source term independent of parameters}\label{secIndependentCase}
+        To simplify the management of repetitive code, a custom library was developed containing a collection of auxiliary functions (e.g., for extracting degrees of freedom, handling inner product matrices, saving models, etc.), with the goal of improving the modularity and readability of the overall workflow.
         
-        \subsection{Source term dependent on parameters}\label{secDependentCase}
+        The two case studies (one with the source term independent of the parameters, and the other with the parameter-dependent source term) were implemented in separate notebooks. Both cases were analyzed using all the proposed methodologies: FOM, POD, PINN, and POD-NN.
 
-    %
-    
+        \subsection{Models setup}
+
+        \textcolor{red}{FOM setup}
+        
+            \subsubsection{POD}
+            
+                The reduction was initially performed by applying the POD method to the snapshots generated during the FOM phase, obtained by solving the PDE for 100 parameters $\mu = (\mu_0, \mu_1)$ sampled uniformly. The discretization of the domain $[0,1]^2$ was carried out using second-order finite elements, with a maximum element area set to $a_{\text{max}} = 0{,}0005$, which ensured sufficient resolution for representing the solutions.\\ 
+                The correlation matrix was computed using the inner product induced by the stiffness matrix. The number of modes $N$ was selected by imposing a cumulative energy threshold of $1 - 10^{-7}$, with a maximum of 10 modes considered.
+                Once the reduced orthonormal basis was constructed, Galerkin projections of the snapshots onto the reduced space were computed by solving a linear system for each parameter, avoiding the explicit computation of the inverse of the reduced matrix.
+            
+            \subsubsection{PINN}
+            
+                The PINN model is an example of unsupervised learning and was implemented using a fully connected neural network with 5 hidden layers and 50 neurons per hidden layer. The activation function used is \texttt{tanh}, chosen for its smoothness and compatibility with partial differential equation problems. The network takes the spatial coordinates $(x, y)$ and the parameters $(\mu_0,\mu_1)$ as input and outputs an approximation of the scalar solution $u(x, y; \mu_0,\mu_1)$. Before training, the \texttt{PyTorch} seed was fixed to 0 to ensure reproducibility.\\
+                During training, 10,000 points were randomly generated inside the domain and another 10,000 on the boundary, uniformly distributed. A \textit{mesh-free} approach was adopted, allowing direct sampling of points within and on the boundary of the domain without the need for an explicit mesh. This choice significantly reduces computational costs and enables rapid extraction of a large number of points such as 10,000. Moreover, it allows independent control of the number of interior and boundary points, unlike mesh-based approaches, where increasing boundary resolution implies a simultaneous increase of internal points.\\   
+                The total loss function is given by the sum of the term associated with the boundary conditions and the PDE residual, weighted by a factor $\lambda = 1$. Optimization was performed using the Adam algorithm, with an initial learning rate of $10^{-3}$ and a learning rate scheduler based on \texttt{ReduceLROnPlateau}, which automatically reduces the learning rate by a factor of 0.75 if the loss stagnates for 5000 consecutive epochs. Training was carried out for a maximum of 500,000 epochs, with early stopping triggered when the loss dropped below a tolerance threshold of $10^{-7}$.\\
+                % Saving and Loading the PINN Model
+                After training the PINN model, a saving mechanism was implemented to allow training to be resumed or evaluations to be repeated without re-running the entire process. At the end of training, the following objects are saved to a file:
+                
+                \begin{itemize}
+                  \item the neural network weights (\texttt{modelStateDict}),
+                  \item the optimizer state (\texttt{optimiserStateDict}),
+                  \item the learning rate scheduler state (\texttt{schedulerStateDict}),
+                  \item the final loss value,
+                  \item the structure of the network (number of layers and neurons per layer),
+                  \item and the last logged training step.
+                \end{itemize}
+                
+                \noindent These objects are serialized into a \texttt{.pth} file using \texttt{torch.save}. To restore the model, \texttt{torch.load} is used and the components are reinitialized via \texttt{load\_state\_dict}.
+                
+            \subsubsection{POD-NN}
+            
+                The POD-NN model was constructed by combining POD-based reduction with a fully connected neural network that learns the mapping from parameters $\mu$ to reduced coefficients. The hyperparameter setup for the POD part is identical to that described earlier, except for the mesh maximum area, which was set to 0.001. The neural network has 3 hidden layers with 30 neurons each in the case of $g_1$, and 5 hidden layers with 50 neurons each in the case of $g_2$. The activation function is still \texttt{tanh}, the input is the parameter vector $(\mu_0, \mu_1)$, while the output is a vector in $\mathbb{R}^N$ representing the coordinates of the solution in the reduced subspace. The \texttt{PyTorch} seed was set to 31 for reproducibility.\\
+                The network was trained in a supervised learning setting, using as target the reduced coefficients obtained from the Galerkin projection of the snapshots into the reduced space. The training dataset is the same used in the POD phase and consists of 100 samples. The loss function adopted is the mean squared error between the network's predictions and the true coefficients. Optimization was performed using the Adam algorithm, with an initial learning rate of $10^{-4}$ in the case of $g_1$ and $10^{-3}$ in the case of $g_2$, and a \texttt{ReduceLROnPlateau} scheduler with factor 0.5 and patience 100. The maximum number of epochs was set to 100,000 for the first case and 500,000 for the second, while the stopping tolerance was kept fixed at $10^{-7}$.
+                
+                For both neural networks, in the PINN and POD-NN models, GPU usage was enabled when available. In our specific case, all training was performed on an NVIDIA GeForce GTX 1650 GPU.
+
+        \subsection{Results}
+
+            \textcolor{red}{In this section the reduced solution seen in § are compared in terms of computational costs and accuracy with respect to the FOM one.}
+
+            \subsubsection{Evaluation Metrics}
+
+                To evaluate the performance of the different approaches tested (PINN, POD, POD-NN), various numerical and computational metrics were used, including absolute error and relative error. Both are presented below in their continuous and discrete forms.
+                
+                \begin{itemize}
+                \item{\textit{Absolute Error in $L^2$ Norm}}
+                  $$
+                  \| u_{\text{model}}(\mu) - u_{\text{FOM}}(\mu) \|_{L^2(\Omega)}
+                  $$
+                  $$
+                  \downarrow
+                  $$
+                  $$
+                  \sqrt{(u_{\text{model}} - u_{\text{FOM}})^T A (u_{\text{model}} - u_{\text{FOM}})}
+                  $$
+                  where $u_{\text{FOM}}$ denotes the high-fidelity reference solution, and $u_{\text{model}}$ is the approximated solution obtained through one of the reduced models. This metric is used to assess how much the predicted solution deviates on average from the reference solution, i.e., the absolute accuracy over the whole domain.
+                
+                  In the case of the PINN model, the error is not computed solely in the $L^2$ norm as in the other approaches, but also includes a contribution related to the residual of the PDE. The metric used is therefore a combination of two components: the error on the solution at the degrees of freedom and the error on the PDE residual evaluated in strong form.
+                %
+                \begin{equation*}
+                    \resizebox{.9\columnwidth}{!}{$
+                        \left\|
+                    u_{\text{PINN}}(\mu) - u_{\text{FOM}}(\mu)
+                    \right\|_{L^2(\Omega)}^2
+                    +
+                    \left\|
+                    \mathcal{L}[u_{\text{PINN}}(\mu)] - f(\cdot, \mu)
+                    \right\|_{L^2(\Omega)}^2
+                    $}
+                \end{equation*}
+                %
+                In discrete form, the total error is computed as:
+                %
+                \begin{equation*}
+                    \resizebox{.9\columnwidth}{!}{$
+                    \sqrt{(u_{\text{FOM}} - u_{\text{PINN}})^T A (u_{\text{FOM}} - u_{\text{PINN}})
+                    +
+                    (A_{\text{strong}} R)^T A (A_{\text{strong}} R)}
+                    $}
+                \end{equation*}
+                
+                where $R$ is the residual vector of the PDE evaluated at interior points, and $A_{\text{strong}}$ is an operator (matrix) that projects the residual onto the degrees of freedom. This type of error reflects not only the difference between the predicted and reference solution, but also how well the neural network satisfies the physics imposed by the differential equation. It is therefore a more coherent metric for evaluating PINN-based models.
+                
+                \item{\textit{Relative Error}}
+                  $$
+                  \frac{\| u_{\text{model}}(\mu) - u_{\text{FOM}}(\mu) \|_{L^2}}{\| u_{\text{FOM}}(\mu) \|_{L^2}}
+                    $$
+                  $$
+                  \downarrow
+                  $$
+                  $$
+                  \frac{\sqrt{(u_{\text{model}} - u_{\text{FOM}})^T A (u_{\text{model}} - u_{\text{FOM}})}}{\sqrt{u_{\text{FOM}}^T A u_{\text{FOM}}}}
+                  $$
+                
+                  The relative error is also used to evaluate the accuracy of the solution. This metric allows comparing the performance of different methods independently of the solution's scale.
+                
+                \item{\textit{Speed-up}}
+                  
+                    $$
+                    \text{Speed-up} = \frac{\text{FOM time}}{\text{alternative model time}}
+                    $$
+                  
+                    where $<$\textit{mod}$>$ \textit{time} refers to the time required to obtain a solution for a new parameter $\mu$ using the specified method \textit{mod}, excluding the training or preprocessing phase. This quantity measures the gain in terms of computational time compared to the full-order finite element solution (FOM). Higher speed-up values indicate greater computational efficiency, making these approaches especially suitable for scenarios requiring rapid or real-time simulations.
+                \end{itemize}
+                
+                All metrics were computed on a test set consisting of $T = 100$ new parameters $\mu = (\mu_0, \mu_1)$, uniformly sampled in the same domain used for training. For each parameter, the high-fidelity reference solution and the corresponding reduced model solution were computed.
+                
+                The computational time for each method was measured using the \texttt{time} library, from which the speed-up was derived. Absolute and relative errors were computed using the inner product induced by the matrix $A$. Finally, the average values of all three metrics were reported as the overall results of the experiment.
+
+                In addition to the computation of quantitative metrics, the accuracy of the reduced-order solutions was also assessed qualitatively through graphical comparisons. Specifically, the solution surfaces obtained using selected reduced models were visually compared with the high-fidelity FOM solution, for fixed values of the parameters $\mu_0$ and $\mu_1$. This visual inspection helped confirm the consistency of the reduced models in capturing the qualitative behavior of the solution.\\
+                The selected parameter values for each case are as follows:
+                \begin{itemize}
+                  \item For the PINN and POD models in the case with $g_1$, and for the POD model in the case with $g_2$: $(\mu_0, \mu_1) = (0.45,\ 0.45)$.
+                  \item For the PINN model in the case with $g_2$: $(\mu_0, \mu_1) = (0.75,\ 0.10)$.
+                \end{itemize}
+                
+            \subsubsection{Source term independent of parameters}\label{secIndependentCase}
+                
+                \textcolor{red}{
+                    \begin{itemize}
+                        \item confronti tra gli esperimenti 
+                        \item Esperimenti nello specifico: confronti risultati con grafici
+                    \end{itemize}}
+                
+                    \begin{table}[!ht]
+                    \centering
+                    \begin{tabular}{lrrr}
+                        \textbf{} & \textbf{POD} & \textbf{PINN} & \textbf{POD-NN} \\ \hline
+                        \textbf{Avarege absolute error ($\times10^{-2}$)} & 0.404 & 3.895 & 0.584 \\ 
+                        \textbf{Avarege relative error ($\times10^{-3}$)} & 0.877 & 8.443 & 1.267 \\ 
+                        \textbf{Avarege speed-up} & 1.225 & 70.327 & 296.372 \\ 
+                    \end{tabular}
+                    \caption{\label{tab:resultsG1} Results in the case with source term independent of parameters ($g_1$).}
+                \end{table}
+                
+            \subsubsection{Source term dependent on parameters}\label{secDependentCase}
+                            
+                \begin{table}[!h]
+                    \centering
+                    \begin{tabular}{lrrr}
+                        \textbf{} & \textbf{POD} & \textbf{PINN} & \textbf{POD-NN} \\ \hline
+                        \textbf{Avarege absolute error ($\times10^{-2}$)} & 0.974 & 16.131 & 47.972 \\ 
+                        \textbf{Avarege relative error ($\times10^{-3}$)} & 1.618 & 26.064 & 80.895 \\ 
+                        \textbf{Avarege speed\_up} & 1.176 & 129.073 & 668.464 \\ 
+                    \end{tabular}
+                    \caption{\label{tab:resultsG2} Results in the case with source term dependent of parameters ($g_2$).}
+                \end{table}
+                    
+            \subsubsection{Comparison of results}\label{secComparisons}
+
+%
+
     \section{Conclusions}\label{seConclusion}
-
-    %
+    
+%
 
     \bibliographystyle{IEEEtran}
     \bibliography{../References/Bibliography}

@@ -531,7 +531,7 @@ def SharedPINNStructure():
     # The inputs are the space variables (x,y) and the parameters (μ₀,μ₁)
     nNI = 4  # Number of input nodes
 
-    nHL = 5   # Number of hidden layers
+    nHL = 5  # Number of hidden layers
     nNH = 50 # Number of hidden nodes per layer
 
     # The output is the predicted value of the PDE solution u(x,y;μ₀,μ₁)
