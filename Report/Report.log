@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2025.1.4)  30 AUG 2025 23:53
+This is LuaHBTeX, Version 1.18.0 (TeX Live 2024)  (format=lualatex 2025.1.4)  31 AUG 2025 22:41
  restricted system commands enabled.
  file:line:error style messages enabled.
 **"c:/Users/Valerio/Desktop/Università/5° A.A. 2024-25/2° Semestre/Model Order Reduction and Machine Learning/Project/Report/Report"
@@ -985,13 +985,15 @@ LaTeX Font Info:    Calculating math sizes for size <11> on input line 54.
 Non-PDF special ignored!{d:/TeXLive/2024/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
-
-warning  (pdf backend): ignoring duplicate destination with the name 'equation.2'
 ]
 
 
 
 [2
+warning  (pdf backend): ignoring duplicate destination with the name 'equation.2'
+
+warning  (pdf backend): ignoring duplicate destination with the name 'equation.5'
+
 warning  (pdf backend): ignoring duplicate destination with the name 'equation.6'
 
 warning  (pdf backend): ignoring duplicate destination with the name 'equation.10'
@@ -999,7 +1001,9 @@ warning  (pdf backend): ignoring duplicate destination with the name 'equation.1
 
 
 
-[3] (./Report.bbl)
+[3]
+
+(./Report.bbl)
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -1013,11 +1017,7 @@ Before submitting the final camera ready copy, remember to:
 
 
 
-
-
-[4
-
-] (./Report.aux)
+[4] (./Report.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 1
 L3 programming layer <2024-12-09>
@@ -1035,19 +1035,19 @@ Package rerunfilecheck Info: File `Report.out' has not changed.
 )
 
 Here is how much of LuaTeX's memory you used:
- 43063 strings out of 475554
+ 43054 strings out of 475554
  125240,1648299 words of node,token memory allocated
- 955 words of node memory still in use:
-   8 hlist, 2 vlist, 2 rule, 1 local_par, 9 glue, 4 kern, 1 penalty, 3 glyph, 116 attribute, 62 glue_spec, 60 attribute_list, 2 write nodes
-   avail lists: 1:1,2:2343,3:495,4:194,5:616,6:98,7:11760,8:69,9:1848,10:20,11:755
- 64996 multiletter control sequences out of 65536+600000
- 142 fonts using 9452167 bytes
- 89i,18n,87p,1125b,959s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{d:/TeXLive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on Report.pdf (4 pages, 234248 bytes).
+ 948 words of node memory still in use:
+   8 hlist, 2 vlist, 2 rule, 1 local_par, 8 glue, 4 kern, 1 penalty, 3 glyph, 116 attribute, 62 glue_spec, 60 attribute_list, 2 write nodes
+   avail lists: 1:1,2:2675,3:450,4:191,5:835,6:96,7:11902,8:87,9:2111,10:20,11:792
+ 64988 multiletter control sequences out of 65536+600000
+ 136 fonts using 9079431 bytes
+ 89i,20n,87p,1125b,1119s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{d:/TeXLive/2024/texmf-dist/fonts/enc/dvips/base/8r.enc}<d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><d:/TeXLive/2024/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on Report.pdf (4 pages, 214466 bytes).
 
-PDF statistics: 211 PDF objects out of 1000 (max. 8388607)
- 181 compressed objects within 2 object streams
- 46 named destinations out of 1000 (max. 131072)
+PDF statistics: 198 PDF objects out of 1000 (max. 8388607)
+ 171 compressed objects within 2 object streams
+ 45 named destinations out of 1000 (max. 131072)
  112 words of extra memory for PDF output out of 10000 (max. 100000000)
 

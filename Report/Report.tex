@@ -85,15 +85,18 @@
     
         In the following, we talk about the discussed PDE and briefly describe the four approaches studied to solve it.
 
+        It's noteworthy that, for the sake of notational brevity, the [explicit] dependency on the parameters $\boldmu$ in any function $f$ is represented as a superscript: $f^\boldmu\equiv f(\mathbf x;\boldmu)$.
+        % Explicit dependency means that a function depend on the parameters regardless of its arguments like (k^μ(·,·) with the ratio μ₀/μ₁ and the exponent exp(μ₁u^μ)); conversely, if the function depends on the parameters only through one of its arguments, then it should not have a superscript (like a(·,·) with u^μ)
+
         \subsection{PDE definition}
 
             The nonlinear elliptic PDE studied consist of finding
             $$
-                u(\mathbf x;\boldsymbol\mu):\Omega\times\mathcal P\to\mathbb R
+                u^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
             $$
             such that it's the solution, for some fixed parameters
             $$
-                \boldsymbol\mu\equiv(\mu_0,\mu_1)\in\mathcal P=[0.1,1]^2
+                \boldmu\equiv(\mu_0,\mu_1)\in\mathcal P=[0.1,1]^2
             $$
             in the parametric square domain, of the following problem with homogeneous Dirichlet boundary conditions:
             %
@@ -103,11 +106,11 @@
                 \newcommand\spzOriz{\hspace{.5cm}}
                 \text{\NLEllPDE}
                 \left\{\begin{alignedat}{2}
-                    &-\Delta u
-                    +h
-                    =g+\frac{\mu_0}{\mu_1}&\spzOriz&
+                    &-\Delta u^\boldmu
+                    +h^\boldmu
+                    =g^\boldmu+\frac{\mu_0}{\mu_1}&\spzOriz&
                     \text{in }\Omega,\\
-                    &u=0&\spzOriz&
+                    &u^\boldmu=0&\spzOriz&
                     \text{on }\partial\Omega,
                 \end{alignedat}\right.
                 \notag
@@ -115,17 +118,17 @@
             %
             where
             %
-            \begin{equation}
-                \label{eqNonLinearTerm}
-                h:\Omega\times\mathcal P\to\mathbb R,\quad
-                (\mathbf x;\boldsymbol\mu)\mapsto
-                h(u,\mathbf x;\boldsymbol\mu)\equiv
-                \frac{\mu_0}{\mu_1}e^{\mu_1 u(\mathbf x;\boldsymbol\mu)}
-            \end{equation}
+            \begin{equation*}
+                % \label{eqNonLinearTerm}
+                h^\boldmu:V\times\mathcal P\to V,\quad
+                (u;\boldmu)\mapsto
+                h^\boldmu(u)\equiv
+                \frac{\mu_0}{\mu_1}e^{\mu_1 u}
+            \end{equation*}
             %
-            is the nonlinear term,
+            is the nonlinear functional term on a space $V$ later defined,
             $$
-                g(\mathbf x;\boldsymbol\mu):\Omega\times\mathcal P\to\mathbb R
+                g^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
             $$
             is the source term to be defined while
             $$
@@ -137,7 +140,7 @@
                 label=C\arabic*.,
                 rightmargin=0cm
             ]
-                \item\label{hypIndependentSourceTerm} independent of $\boldsymbol\mu$ with $g(\mathbf x;\boldsymbol\mu)\equiv g_1(\mathbf x)$ where:
+                \item\label{hypIndependentSourceTerm} independent of $\boldmu$ with $g^\boldmu(\mathbf x)\equiv g_1(\mathbf x)$ where:
                     %
                     \begin{equation}
                         \label{eqIndependentSourceTerm}
@@ -149,11 +152,11 @@
                         %   \quad\forall\mathbf x\in\Omega
                     \end{equation}
             
-                \item\label{hypDependentSourceTerm} dependent on $\boldsymbol\mu$ with $g(\mathbf x;\boldsymbol\mu)\equiv g_2(\mathbf x;\mu_0)$ where:
+                \item\label{hypDependentSourceTerm} dependent on $\boldmu$ with $g^\boldmu(\mathbf x)\equiv g^{\mu_0}_2(\mathbf x)$ where:
                     %
                     \begin{equation}
                         \label{eqDependentSourceTerm}
-                        g_2(\mathbf x;\mu_0)\equiv
+                        g^{\mu_0}_2(\mathbf x)\equiv
                         100\sin(2\pi\mu_0x_0)\cos(2\mu_0\pi x_1)
                         %   \quad\forall\mathbf x\in\Omega
                     \end{equation}
@@ -167,88 +170,123 @@
                 % \vcenter{\hbox{\rotatebox{90}{\text{\VarNLEllPDE}}}}
                 \text{\VarNLEllPDE}
                 \left\{\begin{aligned}
-                    &\text{Find $u(\boldsymbol\mu)\in H_0^1(\Omega)$
-                    such that $\forall v\in H_0^1(\Omega)$}\\
-                    &a(u,v;\boldsymbol\mu)
-                    +k(u,v;\boldsymbol\mu)=
-                    F(v;\boldsymbol\mu),
+                    &\text{Find $u^\boldmu\in V$
+                    such that $\forall v\in V$}\\
+                    &a(u^\boldmu,v)
+                    +k^\boldmu(u^\boldmu,v)=
+                    F^\boldmu(v),
                 \end{aligned}\right.
                 \notag
             \end{equation}
             %
-            where
+            where $V\equiv H_0^1(\Omega)$
             %
             \begin{equation*}
+                % \SpazMate{1}{1}{1}
+                \newcommand\sepSpace{\quad}
                 \begin{alignedat}{2}
-                    a(\boldsymbol\mu):&H_0^1(\Omega)&&\times H_0^1(\Omega)\to\mathbb R,\\
-                    &&&(u,v)\mapsto a(u,v;\boldsymbol\mu)\equiv
-                    \int_\Omega\nabla u(\boldsymbol\mu)\cdot\nabla v;\\
-                    k(\boldsymbol\mu):&H_0^1(\Omega)&&\times H_0^1(\Omega)\to\mathbb R,\\
-                    &&&(u,v)\mapsto k(u,v;\boldsymbol\mu)\equiv
-                    \int_\Omega h(u;\boldsymbol\mu)v;\\
-                    F(\boldsymbol\mu):&H_0^1(\Omega)&&\to\mathbb R,\quad v\mapsto F(v;\boldsymbol\mu)\equiv
-                    \int_\Omega\left(g+\frac{\mu_0}{\mu_1}\right)v.
+                    a:&V\times V\to\mathbb R,%\\&&&
+                    &\sepSpace(u,v)&\mapsto a(u,v)\equiv
+                    \int_\Omega\nabla u\cdot\nabla v;\\
+                    k^\boldmu:&V\times V\to\mathbb R,%\\&&&
+                    &\sepSpace(u,v)&\mapsto k^\boldmu(u,v)\equiv
+                    \int_\Omega h^\boldmu(u)v;\\
+                    F^\boldmu:&V\to\mathbb R,
+                    &\sepSpace v&\mapsto F^\boldmu(v)\equiv
+                    \int_\Omega\left(g^\boldmu+\frac{\mu_0}{\mu_1}\right)v.
                 \end{alignedat}
             \end{equation*}
             
         \subsection{Full order model (FOM)}
 
-            Since \eqref{eqNonLinearTerm} is nonlinear it's necessary to use an iterative approach for the FOM solution $u_\delta(\boldsymbol\mu)$ and for that purpose we have chosen the Newton method: knowing the solution of $u_k$ of the $k-th$ step, the update rule takes form
+            The FOM solution uses the Galerkin method: consider a subspace $V_\delta\subseteq V$ with dimension $N_\delta\equiv\dim\{V_\delta\}_{\delta>0}$, depending on the refinement parameter $\delta>0$, then \refVarNLEllPDE{} becomes
+            %
+            \begin{equation}
+                \refstepcounter{equation}
+                \label{eqGalerVarNLEllipticPED}
+                % \vcenter{\hbox{\rotatebox{90}{\text{\VarGalerNLEllPDE}}}}
+                \text{\VarGalerNLEllPDE}
+                \left\{\begin{aligned}
+                    &\text{Find $u^\boldmu_\delta(\boldmu)\in V_\delta$
+                    such that $\forall v_\delta\in V_\delta$}\\
+                    &a(u^\boldmu_\delta,v_\delta)
+                    +k^\boldmu(u^\boldmu_\delta,v_\delta)=
+                    F^\boldmu(v_\delta),
+                \end{aligned}\right.
+                \notag
+            \end{equation}
+            %
+            in which now $u^\boldmu_\delta$ approximate the true solution $u^\boldmu$. However, due to the nonlinearity of $k^\boldmu$ it's not possible to obtain a matrix form of \refVarGalerNLEllPDE{}; hence, it's necessary to use an iterative approach, chosen to be the Newton method: assume to know the solution of $u^\boldmu_{\delta,n}$ of the $k$-th step, the update rule takes the form
             %
             \begin{equation}
                 \label{eqUpdateRuleNewtonMethod}
-                u_{k+1}(\boldsymbol\mu)
-                =\delta u(\boldsymbol\mu)
-                +u_k(\boldsymbol\mu),
+                u^\boldmu_{\delta,n+1}
+                =u^\boldmu_{\delta,n}
+                +\delta u^\boldmu_n.
+                % \overset{k\to\infty}\longrightarrow.
             \end{equation}
             %
-            where $\delta u(\boldsymbol\mu)$ is a function such that it holds
+            Given the residual of \refVarGalerNLEllPDE{}
+            $$
+                r^\boldmu(u^\boldmu_\delta,v_\delta)\equiv
+                a(u^\boldmu_\delta,v_\delta)
+                +k^\boldmu(u^\boldmu_\delta,v_\delta)
+                -F^\boldmu(v_\delta)=0,
+            $$
+            the direction function $\delta u$ can be found by having $u^\boldmu_{\delta,n+1}$ such that $r^\boldmu(u^\boldmu_{\delta,n+1},v)=r^\boldmu(u^\boldmu_{\delta,n}+\delta u^\boldmu_n,v)=0$, which when linearized gives
+            $$
+                0=r^\boldmu(u^\boldmu_{\delta,n}+\delta u,v_\delta)
+                \approx r^\boldmu(u^\boldmu_{\delta,n},v_\delta)
+                +J^\boldmu_{r,n}[\delta u^\boldmu_n,v_\delta]\delta u^\boldmu_n,
+            $$
+            that is
             %
             \begin{equation}
                 \label{eqDeltauConstraint}
-                \left.J_s[\delta u,v;\boldsymbol\mu]\right|_{u_k}
-                \delta u=-s(u_k,v;\boldsymbol\mu)
-                \quad\forall v \in V,
+                J^\boldmu_{r,n}[\delta u^\boldmu_n,v_\delta]\delta u^\boldmu_n
+                =-r^\boldmu(u^\boldmu_{\delta,n},v_\delta)
+                \quad\forall v_\delta\in V_\delta,
             \end{equation}
             %
-            in which $J_s[\delta u,v]\vert_{u_k}$ is the evaluation of the Jacobian of
-            $$
-                s(u,v;\boldsymbol\mu)\equiv
-                a(u,v;\boldsymbol\mu)
-                +k(u,v;\boldsymbol\mu)
-                -F(v;\boldsymbol\mu)=0
-            $$
-            in $u_k$ along the unknown direction of $\delta u$ defined as
+            in which $J^\boldmu_{r,n}[\delta u^\boldmu_n,v_\delta]$ is the Jacobian of the residual $r^\boldmu$ evaluated in $u^\boldmu_{\delta,n}$ along the unknown direction $\delta u^\boldmu_n$, namely
             %
             \begin{equation}
                 \label{eqGateauxDerivativeDefinition}
-                J_s[\delta u,v;\boldsymbol\mu]\vert_{u_k}\equiv
-                \lim_{h\rightarrow0}
-                \frac{s(u_k+h\delta u,v;\boldsymbol\mu)-s(u_k,v;\boldsymbol\mu)}h,
+                J^\boldmu_{r,n}[\delta u^\boldmu_n,v_\delta]\equiv\lim_{h\rightarrow0}
+                \frac{r^\boldmu(u^\boldmu_{\delta,n}+h\delta u^\boldmu_n,v_\delta)
+                -r^\boldmu(u^\boldmu_{\delta,n},v_\delta)}h,
             \end{equation}
             %
-            assuming $s$ is Gateaux differentiable. From \eqref{eqGateauxDerivativeDefinition}, it's then clear that
+            assuming $r^\boldmu$ is Gateaux differentiable. From \eqref{eqGateauxDerivativeDefinition}, it's then clear that
             $$
-                J_a[\delta u,v;\boldsymbol\mu]\vert_{u_k}=\int_\Omega\nabla\delta u\nabla v,
+                J_{a,n}[\delta u^\boldmu_n,v_\delta]
+                =\int_\Omega\nabla\delta u^\boldmu_n\nabla v_\delta,
             $$
-            for the linearity of $a(u,v;\boldsymbol\mu)$ w.r.t. $u$, whereas
+            for the linearity of $a(u^\boldmu_\delta,v_\delta)$ w.r.t. $u^\boldmu_\delta$, whereas
             $$
-                J_F[\delta u;v;\boldsymbol\mu]\vert_{u_k}=0
+                J^\boldmu_{F,n}[\delta u^\boldmu_n;v_\delta]=0
             $$
-            as $F$ it does not depend on $u$; thus, the only Jacobian necessary to calculate explicitly is
+            as $F^\boldmu$ it does not depend on $u^\boldmu_\delta$; thus, the only Jacobian necessary to calculate explicitly is
             %
             \begin{equation*}
+                % \SpazMate{1}{1}{1}
                 \begin{aligned}
-                    J_k[\delta u,v;\boldsymbol\mu]\vert_{u_k}&=
-                    \lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}e^{\mu_1(u_k+h\delta u)}v-\int_\Omega \frac{\mu_0}{\mu_1}e^{\mu_1u_k}v\right]}
-                    % \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}\left(e^{\mu_1u_k}e^{\mu_1h\delta u}-e^{\mu_1u_k}\right)v\right]}
-                    \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}\left(e^{\mu_1h\delta u}-1\right)e^{\mu_1u_k}v\right]}
-                    \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}\left(1+\mu_1h\delta u-1\right)e^{\mu_1u_k}v\right]}
-                    \\&=\int_\Omega\mu_0\delta ue^{\mu_1u_k}v,
+                    J^\boldmu_{k,n}[\delta u^\boldmu_n,v_\delta]
+                    % &=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega
+                    % \frac{\mu_0}{\mu_1}e^{\mu_1(u^\boldmu_{\delta,n}+h\delta u)}v_\delta
+                    % -\int_\Omega\frac{\mu_0}{\mu_1}e^{\mu_1u^\boldmu_{\delta,n}}v_\delta\right]}
+                    % \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega
+                    % \frac{\mu_0}{\mu_1}\left(e^{\mu_1u^\boldmu_{\delta,n}}e^{\mu_1h\delta u}
+                    % -e^{\mu_1u^\boldmu_{\delta,n}}\right)v_\delta\right]}\\
+                    &=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}
+                    \left(e^{\mu_1h\delta u}-1\right)e^{\mu_1u^\boldmu_{\delta,n}}v_\delta\right]}
+                    \\&=\lim_{h\rightarrow0}{\frac1h\left[\int_\Omega\frac{\mu_0}{\mu_1}
+                    \left(1+\mu_1h\delta u-1\right)e^{\mu_1u^\boldmu_{\delta,n}}v_\delta\right]}
+                    \\&=\int_\Omega\mu_0\delta ue^{\mu_1u^\boldmu_{\delta,n}}v_\delta,
                 \end{aligned}
             \end{equation*}
             %
-            where $e^{\mu_1h\delta u}\approx1+\mu_1h\delta u$ is valid only with $h<<1$ as is the case when $h\rightarrow0$. Therefore, \eqref{eqDeltauConstraint} becomes
+            where $e^{\mu_1h\delta u}\approx1+\mu_1h\delta u$ is valid only with $h\ll1$ as is the case when $h\rightarrow0$. Therefore, \eqref{eqDeltauConstraint} becomes
             %
             \begin{equation}
                 \refstepcounter{equation}
@@ -256,71 +294,89 @@
                 % \vcenter{\hbox{\rotatebox{90}{\text{\NewtonNLEllPDE}}}}
                 \text{\NewtonNLEllPDE}
                 \left\{\begin{aligned}
-                    &\text{Find $\delta u(\boldsymbol\mu)\in H_0^1(\Omega)$
-                    such that $\forall v\in H_0^1(\Omega)$}\\
+                    &\text{Find $\delta u^\boldmu_n\in V_\delta$
+                    such that $\forall v_\delta\in V_\delta$}\\
                     &\begin{aligned}
-                        a(\delta u,v;\boldsymbol\mu)&+\mu_0b(\delta u,ve^{\mu_1u_k};\boldsymbol\mu)
-                        =-a(u_k,v;\boldsymbol\mu)\\
-                        &-\frac{\mu_0}{\mu_1}b(e^{\mu_1u_k},v;\boldsymbol\mu)+F(v;\boldsymbol\mu),
+                        &a(\delta u^\boldmu_n,v_\delta)
+                        +\mu_0b(\delta u^\boldmu_n,
+                        v_\delta e^{\mu_1u^\boldmu_{\delta,n}})
+                        =\\&\quad-a(u^\boldmu_{\delta,n},v_\delta)
+                        -\frac{\mu_0}{\mu_1}
+                        b(e^{\mu_1u^\boldmu_{\delta,n}},v_\delta)
+                        +F^\boldmu(v_\delta),
                     \end{aligned}
                 \end{aligned}\right.
                 \notag
             \end{equation}
-            where
+            in which
             %
             \begin{equation*}
-                b(\boldsymbol\mu):H_0^1(\Omega)\times H_0^1(\Omega)\to\mathbb R,\;\;\;
-                (u,v)\mapsto b(u,v;\boldsymbol\mu)\equiv\int_\Omega u(\boldsymbol\mu)v.
+                b:V\times V\to\mathbb R,\quad
+                (u,v)\mapsto b(u,v)
+                \equiv\int_\Omega u v.
             \end{equation*}
             %
-            Using the Galerkin method\footnotemark{} leads to the linear system
-            \footnotetext{This is possible in \refNewtonNLEllPDE{} since every operator is now linear w.r.t. $\delta u$, but not in \refVarNLEllPDE{} as $k(u,v)$ is nonlinear.}
+            Introducing now a set of basis function $\{\varphi_k\}_{k=1}^{N_\delta}$ such that $V_\delta=\spanOp\{\varphi_k\}_{k=1}^{N_\delta}$, leads to the linear system
             %
             \begin{equation}
                 \label{eqGalerIterLS}
-                \mathbf S(\mathbf u_k;\boldsymbol\mu)\delta\mathbf u
-                =\mathbf y(\mathbf u_k;\boldsymbol\mu),
+                \mathbf S^\boldmu_n\delta\mathbf u^\boldmu_n
+                =\mathbf y^\boldmu_n,
             \end{equation}
             %
             where
+            $$
+                \mathbf S^\boldmu_n
+                \equiv\mathbf S^\boldmu(\mathbf u^\boldmu_{\delta,n})
+                \in\mathbb R^{\Ndelta\times\Ndelta}
+                \quad\text{and}\quad
+                \mathbf y^\boldmu_n
+                \equiv\mathbf y^\boldmu(\mathbf u^\boldmu_{\delta,n})
+                \in\mathbb R^\Ndelta
+            $$
+            have the following definition
             %
             \begin{equation*}
                 \begin{aligned}
-                    \mathbf S(\mathbf u_k;\boldsymbol\mu)&\equiv
-                    \mathbf A+\mu_0\mathbf B(\mathbf u_k;\mu_1),\\
-                    \mathbf y(\mathbf u_k;\boldsymbol\mu)&\equiv-\mathbf a(\mathbf u_k)
-                    -\frac{\mu_0}{\mu_1}(\mathbf b(\mathbf u_k;\mu_1)+\mathbf b)+\mathbf g.
+                    \mathbf S^\boldmu_n&\equiv
+                    \mathbf A+\mu_0\mathbf B^{\mu_1}_n,\\
+                    \mathbf y^\boldmu_n&\equiv-\mathbf a_n
+                    -\frac{\mu_0}{\mu_1}(\mathbf b^{\mu_1}_n-\mathbf b)
+                    +\mathbf g^\boldmu.
                 \end{aligned}
             \end{equation*}
             %
-            Some remarks follow:
+            Some remarks ensue from \eqref{eqGalerIterLS}:
 
             \begin{itemize}[
                 itemsep=2pt,
                 % rightmargin=0cm
             ]
-                \item $\mathbf u_k$ and $\delta\mathbf u$ are now vectors carrying the weights associated to the basis functions used in the Galerkin methods;
-                \item $\mathbf A$ is the stiffness matrix and
-                $$\mathbf b=\mathbf b(\mathbf u_k;\mu_1)\;\;\iff\;\; \mathbf u_k=\mu_1=1;$$
-                \item $\mathbf A$, $\mathbf b$ and $\mathbf g$ are always affine w.r.t. $\boldsymbol\mu$;
-                \item $\mathbf B(\mathbf u_k;\mu_1)$ and $\mathbf b(\mathbf u_k;\mu_1)$ are always \textit{not} affine w.r.t. $\mu_1$;
-                \item $\mathbf g$ is affine w.r.t. $\boldsymbol\mu$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
-            \end{itemize}
+                \item The update rule in \eqref{eqUpdateRuleNewtonMethod} becomes
+                    %
+                    \begin{equation}
+                        \label{eqGalerUpdateRuleNewtonMethod}
+                        \mathbf u_{\delta,n+1}^\boldmu
+                        =\mathbf u_{\delta,n}^\boldmu
+                        +\delta\mathbf u_n^\boldmu
+                    \end{equation}
+                    %
+                    where now every term is are vectors carrying the weights associated to the basis functions;
 
-            The update rule in \eqref{eqUpdateRuleNewtonMethod} becomes
-            %
-            \begin{equation}
-                \label{eqGalerUpdateRuleNewtonMethod}
-                \mathbf u_{k+1}(\boldsymbol\mu)
-                =\mathbf u_k(\boldsymbol\mu)
-                +\delta\mathbf u(\boldsymbol\mu).
-            \end{equation}
+                \item $\mathbf A$ is the stiffness matrix ($A_{ij}\equiv a(\varphi_j,\varphi_i)$), $\mathbf b$ is $\mathbf b_j\equiv b(1,\varphi_j)$ while $\mathbf b^{\mu_1}_n$ is $(\mathbf b^{\mu_1}_n)_j\equiv b(e^{\mu_1u^\boldmu_{\delta,n}},\varphi_j)$;
+                
+                \item $\mathbf A$, $\mathbf b$ and $\mathbf g$ are always affine w.r.t. $\boldmu$;
+                
+                \item $\mathbf B_n^{\mu_1}$ and $\mathbf b_n^{\mu_1}$ are always \textit{not} affine w.r.t. $\mu_1$;
+                
+                \item $\mathbf g^\boldmu_n$ is affine w.r.t. $\mu_0$ if $g\equiv g_1$ but \textit{not} if $g\equiv g_2$.
+            \end{itemize}
 
         \subsection{Proper Orthogonal Decomposition (POD)}\label{secPOD}
 
             POD is known to lead to fast and reliable evaluations of the solution for new parameter values by building the reduced space; in the affine parameter case POD allow us to decouple the computation in offline and online phases too, reducing even greatly the computational costs.
     
-            Considering a parametrized partial differential equation whose solution lies in the functional space $\mathbb{V}^{\boldsymbol\mu}$, POD is an algorithm for the generation of the reduced basis based on two different stages:
+            Considering a parametrized partial differential equation whose solution lies in the functional space $\mathbb{V}^\boldmu$, POD is an algorithm for the generation of the reduced basis based on two different stages:
             
             \begin{enumerate}
                 \item we explore the information related to the solution that varies with respect to $\boldsymbol \mu$ in a finite dimensional set $\mathcal P_{M} \subset \mathcal P$ of dimension $M$.
@@ -332,7 +388,7 @@
             
             In case of a linear PDE with an affine dependence on the parameters, one can easily decouple the online step from the full-order numerical scheme, so that the cost of any online query is uniquely related to the dimension of the reduced space by means of the affine decomposition. However, for differential problems with a non affine parametric dependence one needs some further actions to guarantee a significant computational saving with respect to the underlying full order model.
             
-            In the POD method, to find the basis for our reduced space, we need to define the correlation matrix $\mathbf{C} \in \mathbb{R}^{M \times M}$. First, we select $M$ solutions $\omega_m=u_\delta(\boldsymbol\mu_m) \in \mathbb{V}_{\delta}$ from the high fidelity problem. Then we solve the eigenvalue problem:
+            In the POD method, to find the basis for our reduced space, we need to define the correlation matrix $\mathbf{C} \in \mathbb{R}^{M \times M}$. First, we select $M$ solutions $\omega_m=u^\boldmu_\delta(\boldmu_m) \in \mathbb{V}_{\delta}$ from the high fidelity problem. Then we solve the eigenvalue problem:
             %
             \begin{equation}
                 \label{eq:eig}
@@ -359,38 +415,38 @@
             \begin{equation}
                 \label{eq:NN}
                 \begin{aligned}
-                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mathbb{V}^{\boldsymbol\mu}, \\
-                    & (x,\boldsymbol\mu) \mapsto \hat{u}(x,\boldsymbol\mu) \approx u(x,\boldsymbol\mu).
+                    \mathcal{F}_{NN} \colon \quad & \Omega \times \mathcal{P} \to \mathbb{V}^\boldmu, \\
+                    & (x,\boldmu) \mapsto \hat{u}(x,\boldmu) \approx u(x,\boldmu).
                 \end{aligned}
             \end{equation}
             %
-            where $u(x,\boldsymbol\mu)$ is the exact solution of the PDE and $\mathbb{V}^{\boldsymbol\mu}$ is the functional space where the solution lies. 
+            where $u(x,\boldmu)$ is the exact solution of the PDE and $\mathbb{V}^\boldmu$ is the functional space where the solution lies. 
             PINNs use optimization algorithms to update the network parameters until the value of the loss function is decreased to a prespecified level. 
             
-            Given the neural network $v(x,\boldsymbol\mu) \in \mathcal{F}_{NN}$, the loss function is defined as:
+            Given the neural network $v(x,\boldmu) \in \mathcal{F}_{NN}$, the loss function is defined as:
             %
             \begin{equation}
-                \MSE=\MSE^{\boldsymbol\mu}_b+\lambda \MSE^{\boldsymbol\mu}_p
+                \MSE=\MSE^\boldmu_b+\lambda \MSE^\boldmu_p
             \end{equation}
             %
-            where $\MSE^{\boldsymbol\mu}_b$ is the boundary loss, $\MSE^{\boldsymbol\mu}_p$ is the physical loss and $\lambda$ is the hyperparameter that balances the tradeoff between the two contributions, to be set before the network training.
+            where $\MSE^\boldmu_b$ is the boundary loss, $\MSE^\boldmu_p$ is the physical loss and $\lambda$ is the hyperparameter that balances the tradeoff between the two contributions, to be set before the network training.
             
-            In particular, if the physical system we are studying is described by a PDE of the form $\mathcal R(u(x,\boldsymbol\mu))=0$, the errors are given by:
+            In particular, if the physical system we are studying is described by a PDE of the form $\mathcal R(u(x,\boldmu))=0$, the errors are given by:
             %
             \begin{equation*}
-                \MSE^{\boldsymbol\mu}_b=\frac{1}{N_b} \sum_{k=1}^{N_b} | v(x^b_k,\boldsymbol\mu_k^b) - u(x_k^b,\boldsymbol\mu_k^b)|^2,
+                \MSE^\boldmu_b=\frac{1}{N_b} \sum_{k=1}^{N_b} | v(x^b_k,\boldmu_k^b) - u(x_k^b,\boldmu_k^b)|^2,
             \end{equation*} 
             %       
             \begin{equation*}
-               \MSE^{\boldsymbol\mu}_{p}=\frac{1}{N_p}\sum_{k=1}^{N_p}|\mathcal R(v(x^p_k,\boldsymbol\mu_k^p))|^2
+               \MSE^\boldmu_{p}=\frac{1}{N_p}\sum_{k=1}^{N_p}|\mathcal R(v(x^p_k,\boldmu_k^p))|^2
             \end{equation*}
             %
-            for $(x^b_k,\boldsymbol\mu_k^b) \in (\partial \Omega, \mathcal{P})$ and $(x^p_k,\boldsymbol\mu_k^p) \in (\Omega, \mathcal{P})$.
+            for $(x^b_k,\boldmu_k^b) \in (\partial \Omega, \mathcal{P})$ and $(x^p_k,\boldmu_k^p) \in (\Omega, \mathcal{P})$.
             
             Finally, the solution approximation is given by
             %
             \begin{equation}
-                \hat{u}(x,\boldsymbol\mu):= \operatorname*{argmin}_{v \in \mathcal{F}_{NN}} \MSE.
+                \hat{u}(x,\boldmu):= \operatorname*{argmin}_{v \in \mathcal{F}_{NN}} \MSE.
             \end{equation}
     
         \subsection{POD-NN hybrid approach}\label{secPODNN}
@@ -405,7 +461,7 @@
                 \label{eq:podNN}
                 \begin{aligned}
                     \pi_{NN} \colon \quad & \mathcal{P} \to \mathbb{R}^{N}, \\
-                    &\boldsymbol\mu^* \mapsto \boldsymbol u^{NN}_{N}(\boldsymbol\mu^*) 
+                    &\boldmu^* \mapsto \boldsymbol u^{NN}_{N}(\boldmu^*) 
                 \end{aligned}
             \end{equation}
             %
@@ -416,7 +472,7 @@
                 \mathbb B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mathbb P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
             \end{equation*}
             %
-            where $\mathbb B \in \mathbb{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mathbb P^{\boldsymbol \mu}=\mathbb B \mathbb P_{\delta \to N} \in \mathbb{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
+            where $\mathbb B \in \mathbb{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mathbb P^{\boldsymbol \mu}=\mathbb B \mathbb P_{\delta \to N} \in \mathbb{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u^\boldmu_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u^\boldmu_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
             To train the network, we minimize the loss given by the distance between the exact $u_N$ solution and the network approximation:
             %
             \begin{equation}
