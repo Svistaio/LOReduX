@@ -39,13 +39,15 @@
                 \vspace{-.5cm}
                 \begin{abstract}
                     \bfseries
-                    \noindent PUNTI DA SCRIVERE (cenni): 
-                    \begin{itemize}
-                        \item cosa facciamo e di cosa si tratta
-                        \item descrizione problema (su cosa facciamo esperimenti numerici): problema ellittico non lineare parametrizzato, condizioni al contorno, configurazioni in analisi  
-                        \item obiettivo: valutare e confrontare POD e PINNs+POD-NN rispetto a full order 
-                        \item risultati: cosa abbiamo ottenuto dalle simulazioni
-                    \end{itemize}
+                    \itshape
+                    This project proposes a comparison between three different methods for solving a non-linear parametrized PDE, using the full-order model (FOM) solution as the reference benchmark. Due to the non-affine nature of the problem, computations often become expensive or lead to poor approximations. The aim of the project is therefore to explore how each method reduces computational costs while preserving accuracy.
+
+                    Since the goal was to obtain a faster way to solve the PDE, the first idea was to exploit model order reduction through the Proper Orthogonal Decomposition method (POD). However, since this method is more suitable for linear models, given the non-affine nature of our problem, its effectiveness was not sufficient. 
+                    To address the issues arising with the POD method, we introduced Physics-Informed Neural Networks (PINN). This strategy exploits the use of a neural network trained to satisfy both the PDE and its boundary conditions. In this way, we obtained an alternative to solve the PDE that is mesh-free and data-efficient.  
+                    Finally, the idea was to combine the two strategies by extracting a reduced basis from a collection of high-fidelity solutions, \ie{} snapshots, via POD and employing neural networks to approximate the coefficients of the reduced model.  
+
+                    Numerical studies were presented for a nonlinear elliptic parametrized PDE with homogeneous Dirichlet boundary conditions, considering both parameter-dependent and parameter-independent source terms. To evaluate the accuracy of the different approaches, absolute error and relative error were used, while speed-up was computed to measure the gain in terms of computational time compared to the FOM solution. Our analysis allows to show that the POD method is the most accurate, but only partially effective when considering the computational time. On the other hand, PINN is able to achieve good speed-ups at the cost of lower accuracy. Finally, POD-NN, even though it loses accuracy, manages to obtain really remarkable results of computational time.
+
                 \end{abstract}}
             \end{center}
             % Per qualche motivazione «abstract» richiede «\text{}» per le parentesi quadre
@@ -90,7 +92,7 @@
 
         \subsection{PDE definition}
 
-            The nonlinear elliptic PDE studied consist of finding
+            The non-linear elliptic PDE studied consist of finding
             $$
                 u^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
             $$
@@ -126,7 +128,7 @@
                 \frac{\mu_0}{\mu_1}e^{\mu_1 u}
             \end{equation*}
             %
-            is the nonlinear functional term on a space $V$ later defined,
+            is the non-linear functional term on a space $V$ later defined,
             $$
                 g^\boldmu(\mathbf x):\Omega\times\mathcal P\to\mathbb R
             $$
@@ -374,7 +376,7 @@
 
         \subsection{Proper Orthogonal Decomposition (POD)}\label{secPOD}
 
-            POD is strategy that aims to reduce computational costs by solving the system \eqref{eqGalerIterLS} in a reduced space $V_\rho\subseteq V_\delta$ of dimension $\Nrho\ll\Ndelta$: assume to know the basis function $\{\xi_k\}_{k=1}^\Nrho\in V_\delta$ of such reduced space (i.e. $V_\rho=\spanOp\{\xi_k\}_{k=1}^\Nrho$); then it's possible to express each function w.r.t. $\{\varphi_k\}_{k=1}^\Ndelta$, obtaining the basis matrix 
+            POD is a strategy that aims to reduce computational costs by solving the system \eqref{eqGalerIterLS} in a reduced space $V_\rho\subseteq V_\delta$ of dimension $\Nrho\ll\Ndelta$: assume to know the basis function $\{\xi_k\}_{k=1}^\Nrho\in V_\delta$ of such reduced space (i.e. $V_\rho=\spanOp\{\xi_k\}_{k=1}^\Nrho$); then it's possible to express each function w.r.t. $\{\varphi_k\}_{k=1}^\Ndelta$, obtaining the basis matrix 
             $$
                 \ReducedBase=[\boldxi^1\cdots\boldxi^\Nrho]\in\mBB R^{\Ndelta\times\Nrho};
             $$
@@ -459,7 +461,7 @@
             where $\boldchi^i=\mBB U^\top\boldomega^i$, $1\le i\le N_\rho$, is the transformation sought which also proves $\boldchi^i$ are the eigenvectors of the stiffness matrix
             \footnote{The stiffness matrix shares many properties of $\mBF C$: by definition ($A_{ij}\equiv a(\varphi_j,\varphi_i)$) it's real, symmetric and due to the coercivity of $a$ ($a(v,v)\ge\alpha\Vert v\Vert^2_V\;\;\;\forall v\in V$) it's also definite positive.}.
             
-            The last step comes from linear algebra: in fact, we know thnaks to the spectral theorem that both ${\boldchi^k}_{k=1}^\Nrho$ and $\{\boldomega^k\}_{k=1}^\Nrho$ are only orthogonal to one another\cite[\S 6.3 p. 286]{giordano2017geometria}; hence the reduced basis vectors are obtained by simply normalizing them:
+            The last step comes from linear algebra: in fact, we know thanks to the spectral theorem that both ${\boldchi^k}_{k=1}^\Nrho$ and $\{\boldomega^k\}_{k=1}^\Nrho$ are only orthogonal to one another\cite[\S 6.3 p. 286]{giordano2017geometria}; hence the reduced basis vectors are obtained by simply normalizing them:
             $$
                 \boldxi^i\equiv\frac{\boldchi^i}{\Vert\boldchi^i\Vert_V}.
             $$
@@ -483,7 +485,7 @@
             where $ \mathbf u^\boldmu(\mathbf x)$ is the vector of coefficients associated with the Galerkin framework, whose entries correspond to the weights of the basis functions. 
             The neural network is a fully-connected feed-forward neural network with $n_{\mathrm{HL}}$ hidden layers, each of width $n_{\mathrm H}$.
 
-            The training process is given by the minimization of the loss function define as:
+            The training process is given by the minimization of the loss function defined as:
             %
             \begin{equation}
                 \MSE=\MSE^\boldmu_b+\lambda \MSE^\boldmu_p
@@ -508,39 +510,54 @@
             
         \subsection{POD-NN hybrid approach}\label{secPODNN}
     
-            By combining the previous two methods, we obtain a promising paradigm: the POD-NN hybrid approach. This leverages the dimensionality reduction given by POD to obtain a compact representation of the solution space while using a neural network to learn the parametric dependence of the reduced coefficients. This strategy maintains the accuracy of POD while exploiting the benefits of neural networks, providing a computationally efficient alternative to both the MOR and PINN approaches.
+            By combining the previous two methods, we obtain a promising paradigm: the POD-NN hybrid approach. This strategy leverages the dimensionality reduction given by POD to obtain a compact representation of the solution space while using a neural network to learn the parametric dependence of the reduced coefficients. The aim of this method is to maintain the accuracy of POD and exploit the benefits of neural networks, providing a computationally efficient alternative to both the MOR and PINN approaches.
 
-            POD-NN is a strategy that provides a fast tool to deal with non affine structures. It avoids the online projection by exploiting the direct projection of snapshots onto the reduced space built with the POD method, and then using them to create and train a neural network. 
+            As we said in the POD section \S{\ref{secPOD}}, solving the reduced system \eqref{eqReducedGalerIterLS} may still be costly due to the non-affine nature of our problem. The POD-NN strategy avoids the online projection by exploiting the direct projection of snapshots onto the reduced space built with the POD method and then using them to create and train a neural network. Hence, the POD-NN procedure can be naturally divided into two main phases.
             
+            We start by exploiting the reduced basis $\{\boldxi^i\}_{i=1}^{N_\rho}$ that has been constructed in the POD section \S{\ref{secPOD}}. Given a set of $M$ snapshots $\{\mathbf u^{\mu_m}_\delta\}_{m=1}^M$ with $\mu_m \in \mathcal P$ uniformly varying parameters, the reduced coefficients are computed through orthogonal projection as
+            %
+            \begin{equation*}
+            \hat{\mathbf u}^{\mu_m} 
+            = (\ReducedBase^\top \mathbf A \ReducedBase)^{-1}\ReducedBase^\top \mathbf A \, \mathbf u^{\mu_m}_\delta,
+            \qquad 1 \le m \le M,
+            \end{equation*}
+            %
+            In practice, instead of computing the inverse of the matrix, we solve the linear system
+            %
+            \begin{equation*}
+                (\ReducedBase^\top \mathbf A \ReducedBase) \hat{\mathbf u}^{\mu_m} 
+                = \ReducedBase^\top \mathbf A \, \mathbf u^{\mu_m}_\delta,
+            \end{equation*}
+            %
+            which yield the reduced projections of each snapshot. It is important to note that this operation needs to be performed only $M$ times, since the solutions constitute the training set for our neural network:
+            % 
+            \begin{equation*}
+                \mathcal T = \big\{ (\mu_m, \hat{\mathbf u}^{\mu_m}) \; : \; 1 \le m \le M \big\}.
+            \end{equation*}
+            %
+            Then we construct the network: it is a fully-connected feed-forward neural network with input dimension equal to the number of parameters $M$, output dimension equal to $N_\rho$, and $n_{\mathrm{HL}}$ hidden layers of width $n_{\mathrm H}$.  
             The general structure of the network can be summarized as follows:
             %
             \begin{equation}
-                \label{eq:podNN}
-                \begin{aligned}
-                    \pi_{NN} \colon \quad & \mathcal{P} \to \mathbb{R}^{N}, \\
-                    &\boldmu^* \mapsto \boldsymbol u^{NN}_{N}(\boldmu^*) 
-                \end{aligned}
+            \label{eq:podNN}
+            \begin{aligned}
+                \mathcal{F}_{PODNN} \colon \quad & \mathcal{P} \to \mathbb{R}^{N_\rho}, \\
+                &\mu^* \mapsto \tilde{\boldsymbol u}^{\mu^*} .
+            \end{aligned}
             \end{equation}
             %
-            where $N$ is the dimension of the reduced space obtained by applying the POD. The inputs are the parameters of the training set, while the output is the Galerkin projection of the snapshots. 
-            For the output, which has the form $\boldsymbol u^{NN}_N$, the following relation holds:
-            %
-            \begin{equation*}
-                \mathbb B \boldsymbol u^{NN}_{N} (\boldsymbol \mu) \approx \mathbb P^{\boldsymbol \mu} \boldsymbol u_{{\delta}}(\boldsymbol \mu)
-            \end{equation*}
-            %
-            where $\mathbb B \in \mathbb{R}^{N_\delta \times N}$ is the basis functions matrix of the reduced space, and $\mathbb P^{\boldsymbol \mu}=\mathbb B \mathbb P_{\delta \to N} \in \mathbb{R}^{N_\delta \times N_\delta}$ is composed by the projection operator, which leads to the best approximation of $u^\boldmu_\delta$ in the reduced space, pre-multiplied by the basis function matrix. This allows us to compute $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$ for each snapshot without solving the reduced system, obtaining the best approximation to $\boldsymbol u_{\delta}$ because we have a direct connection between $ \boldsymbol u^\boldmu_\delta$ and $\boldsymbol u^{NN}_{N} (\boldsymbol \mu)$.
-            To train the network, we minimize the loss given by the distance between the exact $u_N$ solution and the network approximation:
+            where the inputs are the parameters of the training set, while the output is the approximation of the Galerkin projection of the snapshots. 
+            To train the network, we need to define a loss function that has to be optimized. The learning process is characterized by the minimization of the Mean Squared Error (MSE) between the predicted coefficients obtained by the network and the reduced coefficients in the training set $\mathcal{T}$:  
             %
             \begin{equation}
-                \label{eq:PODNNLoss}
-                \MSE=\frac{1}{N_{snap}} \sum_{\boldsymbol \mu \in \mathcal{P}_{train}} 
-                \lvert \lvert \boldsymbol u^{NN}_N(\boldsymbol \mu) - \boldsymbol u_N(\boldsymbol \mu) \rvert \rvert^2 ,
+                \label{eq:LossPODNN}
+                \MSE = \frac{1}{M} \sum_{m=1}^M 
+                \left\| \tilde{\boldsymbol u}^{\mu_m} - \hat{\mathbf u}^{\mu_m} \right\|_2^2.
             \end{equation}
             %
-            where $N_{snap}$ is the number of data in the training set. 
-            
-            To sum up, we can compute offline the snapshots collection, apply the POD strategy and train the network. Then, we evaluate the network during the online phase. In this way, we exploit the POD properties and the online phase becomes very fast. In contrast, the offline phase is longer and the accuracy is more difficult to control.  
+            Once trained, we use the network to rapidly predict the reduced coefficients $\hat{\mathbf u}^\mu$ for any new parameter $\mu\in\mathcal P$, avoiding the solution of the reduced system \eqref{eqReducedGalerIterLS}.  
+
+            To sum up, we can compute offline the snapshots collection, apply the POD strategy and train the network. Then, we evaluate the network during the online phase. In this way, we exploit the POD properties and, thanks to the trained neural network, the online phase becomes very fast. In contrast, the offline phase is longer and the accuracy is more difficult to control.  
 
     %
     \section{Settings and Results}
@@ -549,7 +566,7 @@
         
         To simplify the management of repetitive code, a custom library was developed containing a collection of auxiliary functions (e.g., for extracting degrees of freedom, handling inner product matrices, saving models, etc.), with the goal of improving the modularity and readability of the overall workflow.
         
-        The two case studies (one with the source term independent of the parameters, and the other with the parameter-dependent source term) were implemented in separate notebooks. Both cases were analyzed using all the proposed methodologies: FOM, POD, PINN, and POD-NN.
+            The two case studies (one with the source term independent of the parameters, and the other with the parameter-dependent source term) were implemented in separate notebooks. Both cases were analyzed using all the proposed methodologies: FOM, POD, PINN, and POD-NN.
 
         \subsection{Models setup}
 
@@ -704,6 +721,11 @@
 %
 
     \section{Conclusions}\label{seConclusion}
+        This work shows the behaviour of three different methods for solving a nonlinear parametrized elliptic PDE with homogeneous boundary conditions, taking the full-order model (FOM) as the high-fidelity reference solution. Starting from a classical model oder reuction technique, with the expectation that passing through a lower dimensional space would reduce the total computational cost compared to the FOM, we introduced the POD method. Then, we focused on a machine learning approach that exploits both the PDE residual and the boundary conditions, using them directly in the loss function, with the PINN approach. Finally, we presented an hybrid strategy, POD-NN, that combined POD, to extract a reduce basis, with a neural network to approximate the reduced solution. 
+
+        We tested our models on two cases, exhibiting different characteristics in terms of parameter dependency. In particular, we considered a parameter-independent source term and a parameter-dependent source term. In both scenarios, numerical studies confirmed the expected strengths and limitations of the methods. As we can immagine, all approaches performed better in the parameter-independent source term case than in the parameter-dependent one, when compared the results with the FOM reference. In general, POD provided the most accurate approximations, although the non-affine nature of the PDE kept its computational cost high. PINN achieved substantial speed-ups, but at the cost of a noticeable reduction in accuracy. POD-NN showed mixed behavior. In the parameter-independent case, it clearly offered the best trade-off, combining a very high speed-up with accuracy close to that of POD. In contrast, in the parameter-dependent case, although it still achieved an excellent speed-up, the accuracy did not improve and was overall modest, without providing a particularly strong advantage in terms of precision.
+
+        In conclusion, it turned out that POD remains the preferred method when accuracy is the primary goal, while PINN and POD-NN offer remarkable advantages in computational speed. In particular, PINN is suitable when flexibility and mesh-free training are needed, while POD-NN is especially effective in the parameter-independent case, where it achieves both efficiency and reliability.
     
 %
 
