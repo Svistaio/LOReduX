@@ -858,6 +858,18 @@ def buildSolPINN(net,m0,m1):
 ### POD-NN ###
 ##############
 
+def SharedPODNNStructure(N):
+    # The inputs are the two parameters (μ₀,μ₁)
+    nNI = 2  # Number of input nodes
+
+    nHL = 5  # Number of hidden layers
+    nNH = 50 # Number of hidden nodes per layer
+
+    # The outputs are the components of the reduced space basis
+    nNO = N  # Number of output nodes
+
+    return [nNI, nHL, nNH, nNO]
+
 class PODNN(nn.Module):
 
     def __init__(self,nNI,nHL,nNH,nNO):
