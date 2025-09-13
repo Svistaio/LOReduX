@@ -1,0 +1,11 @@
+The diagrams I have written on p. 3 and in «Commutative_Diagram_PODNN.png» are actually wrong. The idea is sound but it's presented as a commutative diagram [1]: these describe how objects transform via morphisms.
+
+However, in this case, at the beginning I do not have an object which I only get by solving the FOM or ROM systems. Thus, the spaces V_δ and V_ρ are not proper as they are not handled.
+
+Therefore they can be corrected by understanding the objects handled: in the leftmost arrow what is transformed is the linear system, whereas in the rightmost arrow is the solution; the middle arrows, instead, solve the linear systems, either full or reduced.
+
+The corrections can be found in «Commutative_Diagram_POD_Corrected.png» and «Commutative_Diagram_PODNN_Corrected.png» images in the Figures folder.
+
+---
+
+[1] https://en.wikipedia.org/wiki/Commutative_diagram
