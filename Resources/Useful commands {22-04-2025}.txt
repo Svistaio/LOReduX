@@ -1,0 +1,6 @@
+
+# Installazione di Docker in una memoria diversa dalla C
+start /w "" "Docker Desktop Installer.exe" install -accept-license  --installation-dir=D:\Docker --wsl-default-data-root=D:\Docker\images
+# https://stackoverflow.com/questions/75727062/how-to-install-docker-desktop-on-a-different-drive-location-on-windows
+
+# Unexpected error: https://github.com/docker/for-win/issues/14030
